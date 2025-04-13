@@ -28,9 +28,7 @@ Given the following corpus, generate an OWL or RDF-style ontology. Include:
 - RDF or OWL triples
 
 Corpus:
-"""
 {corpus}
-"""
 """
     return query_llm(prompt)
 
@@ -62,9 +60,7 @@ def induce_rules(example_patterns: str) -> str:
 You are an AI system generating symbolic logic rules for mastery tracking.
 
 Examples:
-"""
 {example_patterns}
-"""
 
 Generate symbolic IF-THEN rules with confidence estimates.
 Output format:

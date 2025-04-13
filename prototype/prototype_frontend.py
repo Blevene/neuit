@@ -2,6 +2,7 @@
 
 import streamlit as st
 import pandas as pd
+import markdown
 from typing import List, Dict
 from schema_induction_tooling import generate_ontology, suggest_labels, induce_rules
 
@@ -24,7 +25,8 @@ if corpus_file is not None:
         lines = corpus_file.readlines()
         sample_data = "\n".join([line.decode("utf-8") for line in lines])
     elif file_type == "md":
-        sample_data = corpus_file.read().decode("utf-8")
+        with open(corpus_file, 'r') as f:
+            sample_data = markdown.markdown(f.read())
 
 if sample_data:
     st.subheader("Corpus Preview")
