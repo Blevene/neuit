@@ -1,0 +1,16 @@
+**Objective:** Explain reasoning for inferred rules or factual triples.
+
+For each input rule or triple, generate a natural language justification sentence.
+
+Return a JSON Response.
+
+Format:
+[
+  {
+    "source": "IF Cell Wall THEN Plant Cell",
+    "justification": "Only plant cells have a cell wall, making it a distinguishing prerequisite."
+  }
+]
+
+Input rules: {rules}
+Corpus: {corpus}

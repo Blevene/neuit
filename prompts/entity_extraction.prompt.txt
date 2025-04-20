@@ -1,0 +1,19 @@
+**Objective:** Identify concepts, entities, aliases, and their semantic categories from input text.
+
+You are a domain analyst. Extract all key concepts and named entities from the following corpus.
+
+For each concept, return:
+- name: the concept or entity name
+- aliases: known synonyms or alternate terms
+- category: the semantic type (e.g., Process, Substance, Device, Function)
+
+Return JSON:
+[
+  {
+    "name": "Mitochondria",
+    "aliases": ["Powerhouse of the cell"],
+    "category": "Structure"
+  }
+]
+Corpus:
+{corpus}

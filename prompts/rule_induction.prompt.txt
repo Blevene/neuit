@@ -1,0 +1,23 @@
+**Objective:** Infer prerequisite or conditional rules from educational text.
+
+
+From the following corpus, infer symbolic rules that reflect conceptual prerequisites.
+
+Each rule:
+- id: unique integer
+- if: one or more concepts (use AND)
+- then: dependent concept
+- confidence: value from 1–100
+
+Format:
+[
+  {
+    "id": 2,
+    "if": "DNA Replication",
+    "then": "Mitosis",
+    "confidence": 92
+  }
+]
+
+Corpus:
+{corpus}

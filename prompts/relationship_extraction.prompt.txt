@@ -1,0 +1,22 @@
+**Objective:** Identify factual or semantic triples between known entities in the corpus.
+
+
+You are a semantic extraction engine. Use the provided list of concepts and corpus to extract knowledge triples.
+
+Return each as:
+- subject
+- predicate
+- object
+- justification (a sentence from the source text)
+
+Format:
+[
+  {
+    "subject": "Neuron",
+    "predicate": "uses",
+    "object": "Neurotransmitter",
+    "justification": "Neurons use neurotransmitters to communicate across synapses."
+  }
+]
+Concepts: {concepts}
+Corpus: {corpus}
