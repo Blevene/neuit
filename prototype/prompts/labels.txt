@@ -1,0 +1,43 @@
+# Label Suggestion Prompt (Structured with Types)
+
+**Role:** Educational Data Scientist  
+**Goal:** Identify the top {top_n} key concepts from the provided learning materials and generate insightful, typed labels for each concept.
+
+---
+
+## Instructions:
+
+1. Identify the top {top_n} significant key concepts from the corpus.
+2. For each concept:
+   - Generate 3–5 labels.
+   - Each label must include:
+     - `"text"`: the label
+     - `"type"`: one of `"Descriptive"`, `"Logical"`, or `"Analytic"`
+     - `"justification"`: why the label fits the concept
+
+**Label Types Defined:**
+- **Descriptive**: Explains what the concept is or does
+- **Logical**: Explains how it connects with other concepts
+- **Analytic**: Highlights relevance, assessment use, or pedagogical insight
+
+---
+
+## Output Format (JSON)
+
+[
+  {
+    "concept": "Concept Name",
+    "labels": [
+      {
+        "text": "Label Text",
+        "type": "Descriptive | Logical | Analytic",
+        "justification": "Why this label fits this concept"
+      }
+    ]
+  }
+]
+
+You may only return JSON.
+
+## Corpus
+{corpus}

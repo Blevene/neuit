@@ -1,0 +1,29 @@
+# Rule Induction Prompt
+
+**Role:** Educational Rule Miner  
+**Goal:** Infer prerequisite logic rules between concepts based on corpus examples.
+
+---
+
+## Instructions:
+
+1. Review examples of concept relationships (preconditions, dependencies).
+2. Generate symbolic rules that define "IF Concept A THEN Concept B".
+3. Assign a confidence score (1–100).
+
+---
+
+## Output Format (JSON)
+```json
+[
+  {
+    "id": 1,
+    "if": "Concept A AND Concept B",
+    "then": "Concept C",
+    "confidence": 85
+  }
+]
+```
+
+## Corpus
+{corpus}

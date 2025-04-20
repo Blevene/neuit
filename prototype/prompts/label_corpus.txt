@@ -1,0 +1,48 @@
+# Label Suggestion Prompt (Aligned with Ontology)
+
+**Role:** Educational Data Scientist and Knowledge Engineer
+**Goal:** Identify the top {top_n} key concepts from the provided corpus and generate ontology-aligned labels for each concept.
+
+---
+
+## Instructions:
+
+1. First, identify the top {top_n} significant key concepts from the corpus.
+2. For each concept:
+   - Generate 3-5 labels that relate to how this concept would fit in an educational ontology
+   - Each label must include:
+     - `"text"`: the label
+     - `"type"`: one of `"Descriptive"`, `"Logical"`, or `"Analytic"`
+     - `"justification"`: why the label fits the concept and how it relates to an ontology structure
+   - Consider how the concept might relate to:
+     - Class hierarchies (superclass/subclass relationships)
+     - Properties and relationships with other concepts
+     - Domain-specific significance
+
+**Label Types Defined:**
+- **Descriptive**: Explains what the concept is or its defining characteristics in an ontology
+- **Logical**: Explains how it connects with other concepts in a knowledge graph
+- **Analytic**: Highlights relevance to educational assessment, pedagogical insight, or curriculum structure
+
+---
+
+## Output Format (JSON)
+[
+  {
+    "concept": "Concept Name",
+    "ontology_class": "Suggested ontology class this concept belongs to",
+    "labels": [
+      {
+        "text": "Label Text",
+        "type": "Descriptive | Logical | Analytic",
+        "justification": "Why this label fits this concept in an ontology context"
+      }
+    ],
+    "related_concepts": ["Concept1", "Concept2"]
+  }
+]
+
+You must return valid, well-formatted JSON that matches the above structure.
+
+## Corpus
+{corpus}

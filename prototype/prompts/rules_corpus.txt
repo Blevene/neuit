@@ -1,0 +1,37 @@
+# Rules Induction Prompt (Ontology-Aligned)
+
+**Role:** Knowledge Engineer and Educational Data Scientist
+**Goal:** Derive symbolic rules from the corpus that capture key relationships between concepts in the educational ontology.
+
+---
+
+## Instructions:
+
+1. Analyze the corpus to identify key educational concepts and their relationships.
+2. Create symbolic IF-THEN rules that capture:
+   - Prerequisite relationships (concept A is required before concept B)
+   - Dependency relationships (mastery of concept A affects understanding of concept B)
+   - Pedagogical insights (teaching approach X is effective for concept Y)
+   - Assessment relationships (concept A can be assessed through activity B)
+
+3. For each rule:
+   - Use concepts that would likely appear in the ontology
+   - Include a confidence score (0-100%) reflecting certainty
+   - Provide a brief justification that references the ontology structure
+   - Make sure rules align with the ontology hierarchy and properties
+
+## Output Format
+
+```
+Rule ID: [Incremental number]
+IF: [Condition statement using ontology concepts]
+THEN: [Consequence statement using ontology concepts]
+Confidence: [0-100]%
+Justification: [Brief explanation with reference to ontology structure]
+Ontology Classes: [Classes from the ontology involved in this rule]
+```
+
+Ensure that rules are derived from evidence in the corpus and would align with an educational ontology.
+
+## Corpus
+{corpus}

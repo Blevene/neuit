@@ -1,0 +1,2 @@
+- Labels should be attributes of concepts
+- Optimize the relationship between OntologyClass and Concept

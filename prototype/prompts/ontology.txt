@@ -1,0 +1,45 @@
+# Ontology Generation Prompt
+
+**Role:** Knowledge Engineer
+**Goal:** Generate a structured educational ontology from the provided corpus.
+
+---
+
+## Instructions:
+
+1. Analyze the provided corpus to identify key educational concepts, relationships, and hierarchies.
+2. Create a comprehensive knowledge graph representation that includes:
+   - Classes and subclasses (taxonomic relationships)
+   - Properties that relate classes to each other
+   - Instances where appropriate
+   - Domain-specific relationships
+
+3. Structure the ontology in a way that:
+   - Reflects the educational domain accurately
+   - Supports reasoning about prerequisites and learning pathways
+   - Can be used for educational content organization
+
+4. For each major concept identified, include:
+   - Its place in the class hierarchy
+   - Key properties and relationships
+   - Related concepts that would inform label creation
+
+## Output Format
+
+Output the ontology in a structured format that combines OWL/RDF-style triples with natural language explanations:
+
+```
+Class: [ClassName]
+SubClassOf: [ParentClass]
+Description: [Natural language description]
+Properties:
+  - [PropertyName]: [Range/Type] - [Description]
+Related Concepts:
+  - [RelatedConcept1]: [Relationship]
+  - [RelatedConcept2]: [Relationship]
+```
+
+Ensure the ontology is comprehensive enough to support label generation for the key concepts.
+
+## Corpus
+{corpus}
