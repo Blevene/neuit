@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Cell Specialization",
+    "aliases": [],
+    "category": "Process"
+  },
+  {
+    "name": "Multicellular organisms",
+    "aliases": [],
+    "category": "Organism"
+  },
+  {
+    "name": "Cells",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Leaf Cell",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Intestine Cell",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Neuron",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Airway Cell",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Root Cell",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Mitochondria",
+    "aliases": [
+      "Powerhouse of the cell"
+    ],
+    "category": "Structure"
+  },
+  {
+    "name": "Nucleus",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Cilia",
+    "aliases": [],
+    "category": "Structure"
+  },
+  {
+    "name": "Three Essential Functions",
+    "aliases": [],
+    "category": "Process"
+  },
+  {
+    "name": "DNA molecules",
+    "aliases": [],
+    "category": "Substance"
+  },
+  {
+    "name": "Genes",
+    "aliases": [],
+    "category": "Substance"
+  },
+  {
+    "name": "Mucus",
+    "aliases": [],
+    "category": "Substance"
+  },
+  {
+    "name": "Pathogens",
+    "aliases": [
+      "viruses",
+      "bacteria"
+    ],
+    "category": "Organism"
+  }
+]

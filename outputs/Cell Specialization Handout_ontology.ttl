@@ -1,0 +1,37 @@
+@prefix : <http://example.org/ontology#> .
+
+:Cell rdf:type owl:Class .
+:LeafCell rdf:type owl:Class ;
+          rdfs:subClassOf :Cell .
+:IntestineCell rdf:type owl:Class ;
+               rdfs:subClassOf :Cell .
+:AirwayCell rdf:type owl:Class ;
+            rdfs:subClassOf :Cell .
+:RootCell rdf:type owl:Class ;
+          rdfs:subClassOf :Cell .
+
+:hasSpecializedFunction rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Cell ;
+                        rdfs:range :Function .
+
+:Function rdf:type owl:Class .
+:Communication rdf:type owl:Class ;
+              rdfs:subClassOf :Function .
+:Protection rdf:type owl:Class ;
+            rdfs:subClassOf :Function .
+:NutrientAbsorption rdf:type owl:Class ;
+                    rdfs:subClassOf :Function .
+:Photosynthesis rdf:type owl:Class ;
+                rdfs:subClassOf :Function .
+
+:hasSpecializedPart rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cell ;
+                    rdfs:range :CellPart .
+
+:CellPart rdf:type owl:Class .
+:Mitochondria rdf:type owl:Class ;
+              rdfs:subClassOf :CellPart .
+:Nucleus rdf:type owl:Class ;
+          rdfs:subClassOf :CellPart .
+:Cilia rdf:type owl:Class ;
+        rdfs:subClassOf :CellPart .

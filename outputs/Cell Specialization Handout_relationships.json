@@ -1,0 +1,62 @@
+[
+  {
+    "subject": "Multicellular organisms",
+    "predicate": "have",
+    "object": "multiple types of cells",
+    "justification": "Multicellular organisms have multiple types of cells."
+  },
+  {
+    "subject": "Cells",
+    "predicate": "have",
+    "object": "specialized parts",
+    "justification": "Cells also have specialized parts that help them do specific jobs."
+  },
+  {
+    "subject": "Leaf Cell",
+    "predicate": "takes in",
+    "object": "carbon dioxide from the air",
+    "justification": "Leaf Cell: These plant cells take in carbon dioxide from the air; using energy from the sun, they make it into sugar."
+  },
+  {
+    "subject": "Intestine Cell",
+    "predicate": "takes up",
+    "object": "nutrients from food",
+    "justification": "Intestine Cell: These cells take up nutrients from food."
+  },
+  {
+    "subject": "Neuron",
+    "predicate": "carries",
+    "object": "electrical signals",
+    "justification": "Neuron: These cells are part of communication pathways that go from your brain to muscles all over your body. They carry electrical signals, telling muscles when to move."
+  },
+  {
+    "subject": "Airway Cell",
+    "predicate": "keeps out",
+    "object": "pathogens like viruses and bacteria",
+    "justification": "Airway Cell: These cells are the first line of defense against anything harmful you breathe in. They fit tightly to-gether, making a barrier that keeps pathogens like viruses and bacteria out."
+  },
+  {
+    "subject": "Root Cell",
+    "predicate": "takes in",
+    "object": "water and minerals from the soil",
+    "justification": "Root Cell: These cells are part of the outer skin of plant roots. They have a large surface area, which they use to take in water and minerals from the soil."
+  },
+  {
+    "subject": "Mitochondria",
+    "predicate": "breaks down",
+    "object": "molecules to get energy for the cell",
+    "justification": "Mitochondria: Break down molecules to get energy for the cell"
+  },
+  {
+    "subject": "Nucleus",
+    "predicate": "stores",
+    "object": "genetic information in the form of long, stringy DNA molecules",
+    "justification": "Nucleus: Stores genetic information in the form of long, stringy DNA molecules"
+  },
+  {
+    "subject": "Cilia",
+    "predicate": "push away",
+    "object": "mucus and trapped debris",
+    "justification": "Cilia: Move in a wave like motions. Push away mucus and trapped debris"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "if": "Understanding of Cell Specialization",
+    "then": "Understanding of Multicellular Organisms",
+    "confidence": 95
+  },
+  {
+    "id": 2,
+    "if": "Understanding of Cell Parts and Functions",
+    "then": "Identification of Specialized Cells",
+    "confidence": 90
+  },
+  {
+    "id": 3,
+    "if": "Understanding of Specialized Proteins",
+    "then": "Understanding of Cell Processes",
+    "confidence": 85
+  },
+  {
+    "id": 4,
+    "if": "Understanding of Cell Structures",
+    "then": "Comparison and Contrast of Different Cells",
+    "confidence": 90
+  },
+  {
+    "id": 5,
+    "if": "Understanding of Mitochondria and Nucleus",
+    "then": "Understanding of Cell Energy and Genetic Information Storage",
+    "confidence": 95
+  },
+  {
+    "id": 6,
+    "if": "Understanding of Cilia",
+    "then": "Understanding of Mucus and Debris Movement in Cells",
+    "confidence": 85
+  }
+]
