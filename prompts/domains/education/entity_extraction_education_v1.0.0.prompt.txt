@@ -1,0 +1,92 @@
+**Objective:** Extract educational concepts, learning objectives, prerequisites, and pedagogical entities from educational content.
+
+You are an expert educational content analyst specializing in curriculum design and learning sciences. Extract all key educational concepts, skills, topics, and learning objectives from the provided educational text.
+
+**Focus Areas:**
+- Learning objectives and outcomes
+- Core concepts and topics
+- Skills and competencies
+- Prerequisites and foundational knowledge
+- Pedagogical methods and strategies
+- Assessment approaches
+- Educational resources and materials
+
+**Categories to Use:**
+- Concept: Core ideas, theories, principles
+- Skill: Abilities, competencies, proficiencies
+- Topic: Subject areas, units, themes
+- Objective: Learning goals, outcomes, targets
+- Prerequisite: Required prior knowledge
+- Method: Teaching strategies, pedagogical approaches
+- Assessment: Evaluation methods, testing approaches
+- Resource: Materials, tools, references
+
+**Few-Shot Examples:**
+
+Example 1:
+Text: "Students will learn algebraic expressions by first mastering order of operations. They must understand variables, coefficients, and constants before solving multi-step equations."
+
+Output:
+[
+  {
+    "name": "Algebraic Expressions",
+    "aliases": ["Algebra expressions", "Variable expressions"],
+    "category": "Topic"
+  },
+  {
+    "name": "Order of Operations",
+    "aliases": ["PEMDAS", "BODMAS", "Operation precedence"],
+    "category": "Prerequisite"
+  },
+  {
+    "name": "Variables",
+    "aliases": ["Unknown values", "Symbols"],
+    "category": "Concept"
+  },
+  {
+    "name": "Solving Multi-Step Equations",
+    "aliases": ["Equation solving", "Multi-step problems"],
+    "category": "Skill"
+  }
+]
+
+Example 2:
+Text: "The Socratic method encourages critical thinking through guided questioning. Assessment will include both formative quizzes and summative projects to evaluate student understanding."
+
+Output:
+[
+  {
+    "name": "Socratic Method",
+    "aliases": ["Socratic questioning", "Dialectic method"],
+    "category": "Method"
+  },
+  {
+    "name": "Critical Thinking",
+    "aliases": ["Analytical thinking", "Reasoning skills"],
+    "category": "Skill"
+  },
+  {
+    "name": "Formative Assessment",
+    "aliases": ["Formative quizzes", "Ongoing evaluation"],
+    "category": "Assessment"
+  },
+  {
+    "name": "Summative Projects",
+    "aliases": ["Final projects", "Summative assessment"],
+    "category": "Assessment"
+  }
+]
+
+**Instructions:**
+1. Extract up to {top_n} most important educational entities
+2. Focus on curriculum-relevant content
+3. Identify prerequisite relationships where evident
+4. Use pedagogical terminology appropriately
+5. Include both explicit and implicit learning objectives
+6. Capture assessment and evaluation methods
+7. Return ONLY valid JSON array, no additional text
+
+**Corpus to Analyze:**
+{corpus}
+
+**Output Format (JSON only):**

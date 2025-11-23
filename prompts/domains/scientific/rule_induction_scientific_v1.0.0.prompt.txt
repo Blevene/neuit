@@ -1,0 +1,76 @@
+**Objective:** Extract scientific laws, experimental protocols, theoretical principles, and research methodologies from scientific literature.
+
+You are a scientific methodology expert. Extract logical if-then rules that govern natural phenomena, experimental procedures, theoretical frameworks, and research protocols.
+
+**Rule Types to Extract:**
+- Natural Laws: IF condition X THEN physical outcome Y
+- Experimental Protocols: IF experimental setup X THEN procedure Y
+- Theoretical Principles: IF theoretical condition X THEN prediction Y
+- Methodological Guidelines: IF research goal X THEN method Y
+- Safety Protocols: IF chemical/condition X THEN precaution Y
+- Analysis Rules: IF data pattern X THEN statistical method Y
+
+**Few-Shot Examples:**
+
+Example 1:
+Text: "When conducting PCR amplification, if the annealing temperature is too high, primer binding efficiency decreases and amplification fails. Optimal annealing temperature should be 5°C below the primer Tm. If non-specific products appear, increase annealing temperature in 2°C increments."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "PCR annealing temperature is too high",
+    "then": "Primer binding efficiency decreases and amplification fails",
+    "confidence": 0.95,
+    "rule_type": "experimental_outcome"
+  },
+  {
+    "id": 2,
+    "if": "Setting PCR annealing temperature",
+    "then": "Set temperature 5°C below primer Tm",
+    "confidence": 0.92,
+    "rule_type": "experimental_protocol"
+  },
+  {
+    "id": 3,
+    "if": "Non-specific PCR products appear",
+    "then": "Increase annealing temperature in 2°C increments",
+    "confidence": 0.88,
+    "rule_type": "troubleshooting"
+  }
+]
+
+Example 2:
+Text: "According to Newton's second law, if a force is applied to an object, it accelerates proportional to the force and inversely proportional to its mass. For statistical analysis, if data shows non-normal distribution, use non-parametric tests such as Mann-Whitney U test."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Force is applied to an object",
+    "then": "Object accelerates proportional to force and inversely proportional to mass",
+    "confidence": 0.99,
+    "rule_type": "natural_law"
+  },
+  {
+    "id": 2,
+    "if": "Data shows non-normal distribution",
+    "then": "Use non-parametric tests such as Mann-Whitney U test",
+    "confidence": 0.90,
+    "rule_type": "methodological_guideline"
+  }
+]
+
+**Instructions:**
+1. Extract fundamental scientific principles and laws
+2. Capture experimental protocols with conditions
+3. Include safety and procedural guidelines
+4. Identify cause-effect relationships in natural phenomena
+5. Extract methodological decision rules
+6. Assign confidence based on scientific consensus
+7. Return ONLY valid JSON array, no additional text
+
+**Corpus:**
+{corpus}
+
+**Output Format (JSON only):**

@@ -1,0 +1,19 @@
+**Objective:** Extract legal relationships including obligations, precedents, violations, and jurisdictional connections.
+
+You are a legal analyst. Extract relationships such as obligations, precedents, violations, interpretations, and jurisdictional authority.
+
+**Relationship Types:** requires, prohibits, grants, interprets, overrules, cited_by, violates, governed_by, enforced_by, remedied_by
+
+**Few-Shot Example:**
+Corpus: "The contract requires the seller to deliver goods within 30 days. Breach of this obligation entitles the buyer to monetary damages under Section 2-711 of the UCC."
+Concepts: Contract, Seller, Delivery, Breach, Buyer, Damages, UCC Section 2-711
+
+Output:
+[
+  {"subject": "Contract", "predicate": "requires", "object": "Delivery", "justification": "The contract requires the seller to deliver goods within 30 days"},
+  {"subject": "Breach", "predicate": "entitles", "object": "Damages", "justification": "Breach of this obligation entitles the buyer to monetary damages"},
+  {"subject": "Damages", "predicate": "governed_by", "object": "UCC Section 2-711", "justification": "Damages are governed by Section 2-711 of the UCC"}
+]
+
+**Corpus:** {corpus}
+**Concepts:** {concepts}

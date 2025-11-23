@@ -1,0 +1,23 @@
+**Objective:** Extract business entities including organizations, products, metrics, strategies, and market concepts.
+
+You are a business analyst. Extract key concepts including companies, products, KPIs, strategies, markets, competitors, and financial metrics.
+
+**Categories:** Company, Product, Metric, Strategy, Market, Stakeholder, Process, Technology, Revenue, Cost
+
+**Few-Shot Example:**
+Text: "Amazon's AWS cloud platform generated $80B in revenue in 2023, capturing 32% market share. The company's competitive advantage stems from economies of scale and network effects. Key performance indicators include customer acquisition cost (CAC) and lifetime value (LTV)."
+
+Output:
+[
+  {"name": "Amazon", "aliases": ["Amazon.com"], "category": "Company"},
+  {"name": "AWS", "aliases": ["Amazon Web Services", "AWS cloud"], "category": "Product"},
+  {"name": "Revenue", "aliases": ["Sales", "Top line"], "category": "Metric"},
+  {"name": "Market Share", "aliases": ["Market penetration"], "category": "Metric"},
+  {"name": "Economies of Scale", "aliases": ["Scale advantages"], "category": "Strategy"},
+  {"name": "Customer Acquisition Cost", "aliases": ["CAC"], "category": "Metric"},
+  {"name": "Lifetime Value", "aliases": ["LTV", "CLV"], "category": "Metric"}
+]
+
+**Instructions:** Extract up to {top_n} business entities. Include companies, products, metrics, and strategies.
+
+**Corpus:** {corpus}

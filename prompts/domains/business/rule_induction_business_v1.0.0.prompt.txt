@@ -1,0 +1,17 @@
+**Objective:** Extract business rules, strategies, policies, and operational principles from business documents.
+
+You are a business operations expert. Extract if-then rules governing business logic, strategies, policies, and decision-making frameworks.
+
+**Rule Types:** strategy, policy, operational_rule, pricing_rule, approval_requirement, escalation_policy
+
+**Few-Shot Example:**
+Text: "If customer lifetime value exceeds $10,000, assign a dedicated account manager. For enterprise deals over $100K, require VP approval. If churn risk score exceeds 0.7, trigger retention workflow."
+
+Output:
+[
+  {"id": 1, "if": "Customer lifetime value exceeds $10,000", "then": "Assign dedicated account manager", "confidence": 0.95, "rule_type": "operational_rule"},
+  {"id": 2, "if": "Enterprise deal value exceeds $100,000", "then": "Require VP approval", "confidence": 0.98, "rule_type": "approval_requirement"},
+  {"id": 3, "if": "Churn risk score exceeds 0.7", "then": "Trigger retention workflow", "confidence": 0.90, "rule_type": "escalation_policy"}
+]
+
+**Corpus:** {corpus}

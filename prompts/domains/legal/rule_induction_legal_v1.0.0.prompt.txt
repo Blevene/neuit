@@ -1,0 +1,16 @@
+**Objective:** Extract legal rules, obligations, prohibitions, and precedential principles from legal text.
+
+You are a legal reasoning expert. Extract if-then rules governing legal obligations, liabilities, rights, and procedural requirements.
+
+**Rule Types:** obligation, prohibition, entitlement, liability, procedural_requirement, precedent
+
+**Few-Shot Example:**
+Text: "If a party fails to perform a material obligation under the contract, the non-breaching party may terminate and seek damages. Notice of termination must be provided in writing within 30 days of the breach."
+
+Output:
+[
+  {"id": 1, "if": "Party fails to perform material obligation", "then": "Non-breaching party may terminate and seek damages", "confidence": 0.95, "rule_type": "entitlement"},
+  {"id": 2, "if": "Party elects to terminate contract", "then": "Written notice must be provided within 30 days of breach", "confidence": 0.93, "rule_type": "procedural_requirement"}
+]
+
+**Corpus:** {corpus}

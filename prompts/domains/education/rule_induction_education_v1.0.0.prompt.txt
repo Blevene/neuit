@@ -1,0 +1,68 @@
+**Objective:** Extract pedagogical rules, learning principles, prerequisite conditions, and instructional guidelines from educational content.
+
+You are an expert in learning sciences and instructional design. Extract logical if-then rules that govern learning sequences, prerequisite relationships, and pedagogical principles.
+
+**Rule Types to Extract:**
+- Prerequisite Rules: IF student masters X THEN student can learn Y
+- Learning Principles: IF condition X THEN learning outcome Y
+- Assessment Rules: IF student demonstrates X THEN proficiency level Y
+- Instructional Guidelines: IF teaching context X THEN use method Y
+- Scaffolding Rules: IF student struggles with X THEN provide support Y
+
+**Few-Shot Examples:**
+
+Example 1:
+Text: "Students should master basic arithmetic before attempting algebra. If a student struggles with fractions, provide additional manipulative-based practice before moving to algebraic fractions."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Student completes basic arithmetic",
+    "then": "Student can begin algebra",
+    "confidence": 0.95,
+    "rule_type": "prerequisite"
+  },
+  {
+    "id": 2,
+    "if": "Student struggles with fractions",
+    "then": "Provide manipulative-based practice before algebraic fractions",
+    "confidence": 0.90,
+    "rule_type": "scaffolding"
+  }
+]
+
+Example 2:
+Text: "Active learning strategies increase retention when students are engaged. Formative assessment should be administered every two weeks to identify learning gaps early."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Students are actively engaged in learning",
+    "then": "Retention increases",
+    "confidence": 0.88,
+    "rule_type": "learning_principle"
+  },
+  {
+    "id": 2,
+    "if": "Two weeks have passed since last assessment",
+    "then": "Administer formative assessment to identify learning gaps",
+    "confidence": 0.85,
+    "rule_type": "instructional_guideline"
+  }
+]
+
+**Instructions:**
+1. Focus on prerequisite chains and learning dependencies
+2. Extract pedagogical best practices and principles
+3. Identify conditions that enable or block learning
+4. Capture assessment and evaluation rules
+5. Assign confidence scores based on evidence strength
+6. Ensure rules are actionable and specific
+7. Return ONLY valid JSON array, no additional text
+
+**Corpus:**
+{corpus}
+
+**Output Format (JSON only):**

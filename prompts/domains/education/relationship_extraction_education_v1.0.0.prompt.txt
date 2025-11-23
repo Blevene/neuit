@@ -1,0 +1,83 @@
+**Objective:** Extract pedagogical relationships, prerequisite chains, and learning pathways from educational content.
+
+You are an expert in curriculum design and learning pathway analysis. Extract semantic relationships between educational concepts, focusing on prerequisite dependencies, learning progressions, and pedagogical connections.
+
+**Relationship Types to Identify:**
+- requires_prerequisite: Topic A requires prior knowledge of Topic B
+- enables_learning: Skill A enables learning Skill B
+- assessed_by: Concept A is assessed by Method B
+- taught_using: Topic A is taught using Method B
+- builds_upon: Concept A builds upon Concept B
+- exemplified_by: Concept A is exemplified by Example B
+- applies_to: Skill A applies to Context B
+- part_of: Topic A is part of Unit B
+
+**Few-Shot Examples:**
+
+Example 1:
+Corpus: "Before studying calculus, students must master algebra and trigonometry. Integration techniques build upon differentiation rules."
+Concepts: Calculus, Algebra, Trigonometry, Integration, Differentiation
+
+Output:
+[
+  {
+    "subject": "Calculus",
+    "predicate": "requires_prerequisite",
+    "object": "Algebra",
+    "justification": "Students must master algebra before studying calculus"
+  },
+  {
+    "subject": "Calculus",
+    "predicate": "requires_prerequisite",
+    "object": "Trigonometry",
+    "justification": "Students must master trigonometry before studying calculus"
+  },
+  {
+    "subject": "Integration",
+    "predicate": "builds_upon",
+    "object": "Differentiation",
+    "justification": "Integration techniques build upon differentiation rules"
+  }
+]
+
+Example 2:
+Corpus: "Problem-based learning is used to teach critical thinking skills. Student understanding is assessed through portfolio reviews and presentations."
+Concepts: Problem-based Learning, Critical Thinking, Portfolio Reviews, Presentations
+
+Output:
+[
+  {
+    "subject": "Critical Thinking",
+    "predicate": "taught_using",
+    "object": "Problem-based Learning",
+    "justification": "Problem-based learning is used to teach critical thinking skills"
+  },
+  {
+    "subject": "Critical Thinking",
+    "predicate": "assessed_by",
+    "object": "Portfolio Reviews",
+    "justification": "Student understanding is assessed through portfolio reviews"
+  },
+  {
+    "subject": "Critical Thinking",
+    "predicate": "assessed_by",
+    "object": "Presentations",
+    "justification": "Student understanding is assessed through presentations"
+  }
+]
+
+**Instructions:**
+1. Focus on prerequisite chains and learning dependencies
+2. Identify pedagogical relationships (teaching methods, assessment)
+3. Extract learning progressions and sequences
+4. Use education-specific predicates when appropriate
+5. Provide clear justifications grounded in the text
+6. Return ONLY valid JSON array, no additional text
+
+**Corpus:**
+{corpus}
+
+**Known Concepts:**
+{concepts}
+
+**Output Format (JSON only):**

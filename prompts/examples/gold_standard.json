@@ -1,0 +1,72 @@
+[
+  {
+    "id": "edu-algebra-1",
+    "text": "Students must master basic arithmetic operations including addition, subtraction, multiplication, and division before attempting algebraic equations. Understanding variables and constants is a prerequisite for solving linear equations.",
+    "expected_entities": [
+      {"name": "Arithmetic Operations", "aliases": ["Basic math"], "category": "Prerequisite"},
+      {"name": "Addition", "aliases": [], "category": "Skill"},
+      {"name": "Subtraction", "aliases": [], "category": "Skill"},
+      {"name": "Multiplication", "aliases": [], "category": "Skill"},
+      {"name": "Division", "aliases": [], "category": "Skill"},
+      {"name": "Algebraic Equations", "aliases": ["Algebra equations"], "category": "Topic"},
+      {"name": "Variables", "aliases": ["Unknowns"], "category": "Concept"},
+      {"name": "Constants", "aliases": ["Fixed values"], "category": "Concept"},
+      {"name": "Linear Equations", "aliases": ["First-degree equations"], "category": "Topic"}
+    ],
+    "expected_relationships": [
+      {"subject": "Algebraic Equations", "predicate": "requires_prerequisite", "object": "Arithmetic Operations"},
+      {"subject": "Linear Equations", "predicate": "requires_prerequisite", "object": "Variables"}
+    ],
+    "expected_rules": [
+      {"id": 1, "if": "Student masters arithmetic operations", "then": "Student can attempt algebraic equations", "confidence": 0.95}
+    ],
+    "domain": "education",
+    "difficulty": "easy"
+  },
+  {
+    "id": "med-hypertension-1",
+    "text": "Hypertension is defined as blood pressure consistently above 140/90 mmHg. First-line treatment includes lifestyle modifications and thiazide diuretics. ACE inhibitors are effective but contraindicated in pregnancy.",
+    "expected_entities": [
+      {"name": "Hypertension", "aliases": ["High blood pressure", "HTN"], "category": "Disease"},
+      {"name": "Blood Pressure", "aliases": ["BP"], "category": "Measurement"},
+      {"name": "Lifestyle Modifications", "aliases": [], "category": "Procedure"},
+      {"name": "Thiazide Diuretics", "aliases": ["Thiazides"], "category": "Medication"},
+      {"name": "ACE Inhibitors", "aliases": ["ACEi"], "category": "Medication"},
+      {"name": "Pregnancy", "aliases": [], "category": "Condition"}
+    ],
+    "expected_relationships": [
+      {"subject": "Thiazide Diuretics", "predicate": "treats", "object": "Hypertension"},
+      {"subject": "ACE Inhibitors", "predicate": "treats", "object": "Hypertension"},
+      {"subject": "ACE Inhibitors", "predicate": "contraindicated_with", "object": "Pregnancy"}
+    ],
+    "expected_rules": [
+      {"id": 1, "if": "Blood pressure consistently above 140/90 mmHg", "then": "Diagnose hypertension", "confidence": 0.98}
+    ],
+    "domain": "medical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "sci-photosynthesis-1",
+    "text": "Photosynthesis converts light energy into chemical energy. Chlorophyll absorbs light in the blue and red wavelengths. The Calvin cycle uses ATP and NADPH to fix carbon dioxide into glucose.",
+    "expected_entities": [
+      {"name": "Photosynthesis", "aliases": [], "category": "Process"},
+      {"name": "Light Energy", "aliases": ["Solar energy"], "category": "Energy"},
+      {"name": "Chemical Energy", "aliases": [], "category": "Energy"},
+      {"name": "Chlorophyll", "aliases": [], "category": "Molecule"},
+      {"name": "Calvin Cycle", "aliases": ["Light-independent reactions"], "category": "Process"},
+      {"name": "ATP", "aliases": ["Adenosine triphosphate"], "category": "Molecule"},
+      {"name": "NADPH", "aliases": [], "category": "Molecule"},
+      {"name": "Carbon Dioxide", "aliases": ["CO2"], "category": "Molecule"},
+      {"name": "Glucose", "aliases": [], "category": "Molecule"}
+    ],
+    "expected_relationships": [
+      {"subject": "Photosynthesis", "predicate": "converts", "object": "Light Energy"},
+      {"subject": "Chlorophyll", "predicate": "absorbs", "object": "Light Energy"},
+      {"subject": "Calvin Cycle", "predicate": "uses", "object": "ATP"},
+      {"subject": "Calvin Cycle", "predicate": "produces", "object": "Glucose"}
+    ],
+    "expected_rules": [],
+    "domain": "scientific",
+    "difficulty": "medium"
+  }
+]

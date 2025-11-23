@@ -1,0 +1,84 @@
+**Objective:** Extract clinical decision rules, treatment protocols, diagnostic criteria, and medical guidelines from medical text.
+
+You are a clinical decision support expert. Extract logical if-then rules that govern clinical decision-making, treatment protocols, diagnostic pathways, and patient management guidelines.
+
+**Rule Types to Extract:**
+- Diagnostic Criteria: IF symptoms/findings X THEN diagnosis Y
+- Treatment Protocols: IF diagnosis X THEN treatment Y
+- Dosing Rules: IF patient characteristics X THEN dose Y
+- Contraindications: IF condition X THEN avoid treatment Y
+- Monitoring Rules: IF treatment X THEN monitor parameter Y
+- Escalation Rules: IF condition worsens THEN escalate to intervention Y
+- Prevention Guidelines: IF risk factor X THEN preventive measure Y
+
+**Few-Shot Examples:**
+
+Example 1:
+Text: "For acute bacterial sinusitis lasting more than 10 days, initiate antibiotic therapy with amoxicillin-clavulanate. If the patient is allergic to penicillin, use doxycycline or a respiratory fluoroquinolone instead. Monitor for symptom improvement within 48-72 hours."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Acute bacterial sinusitis persists for more than 10 days",
+    "then": "Initiate antibiotic therapy with amoxicillin-clavulanate",
+    "confidence": 0.95,
+    "rule_type": "treatment_protocol"
+  },
+  {
+    "id": 2,
+    "if": "Patient has penicillin allergy and requires sinusitis treatment",
+    "then": "Use doxycycline or respiratory fluoroquinolone",
+    "confidence": 0.92,
+    "rule_type": "contraindication"
+  },
+  {
+    "id": 3,
+    "if": "Antibiotic therapy initiated for sinusitis",
+    "then": "Monitor for symptom improvement within 48-72 hours",
+    "confidence": 0.90,
+    "rule_type": "monitoring"
+  }
+]
+
+Example 2:
+Text: "Diagnose hypertension if blood pressure is consistently ≥140/90 mmHg on three separate occasions. Begin lifestyle modifications first. If blood pressure remains elevated after 3 months, add pharmacological therapy with ACE inhibitor or thiazide diuretic."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Blood pressure ≥140/90 mmHg on three separate occasions",
+    "then": "Diagnose hypertension",
+    "confidence": 0.98,
+    "rule_type": "diagnostic_criteria"
+  },
+  {
+    "id": 2,
+    "if": "Hypertension diagnosed",
+    "then": "Begin lifestyle modifications",
+    "confidence": 0.95,
+    "rule_type": "treatment_protocol"
+  },
+  {
+    "id": 3,
+    "if": "Blood pressure remains elevated after 3 months of lifestyle modifications",
+    "then": "Add ACE inhibitor or thiazide diuretic",
+    "confidence": 0.93,
+    "rule_type": "escalation"
+  }
+]
+
+**Instructions:**
+1. Extract evidence-based clinical decision rules
+2. Capture treatment algorithms and protocols
+3. Include diagnostic criteria with specific thresholds
+4. Identify contraindications and safety rules
+5. Extract monitoring and follow-up guidelines
+6. Assign confidence based on guideline strength
+7. Return ONLY valid JSON array, no additional text
+
+**Corpus:**
+{corpus}
+
+**Output Format (JSON only):**
