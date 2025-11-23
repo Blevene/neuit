@@ -6,6 +6,7 @@ import logging
 import argparse
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import List, Dict, Any, Optional, Tuple
 from tqdm import tqdm
 import mimetypes
 import magic
@@ -16,7 +17,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from llm.llm_utils import call_llm_with_prompt, get_provider_stats
 from backend.quality_assurance import QualityAssurance
-from backend.neo4j_integration import create_neo4j_connector
+from backend.neo4j_integration import create_neo4j_connector, Neo4jConnector
 from PyPDF2 import PdfReader
 from docx import Document
 
@@ -39,8 +40,8 @@ QA_STRICT_MODE = os.getenv("QA_STRICT_MODE", "false").lower() == "true"
 ENABLE_NEO4J = os.getenv("ENABLE_NEO4J", "false").lower() == "true"
 
 # Global instances
-qa_system = QualityAssurance(min_confidence=QA_MIN_CONFIDENCE, enable_strict_mode=QA_STRICT_MODE) if ENABLE_QA else None
-neo4j_connector = None
+qa_system: Optional[QualityAssurance] = QualityAssurance(min_confidence=QA_MIN_CONFIDENCE, enable_strict_mode=QA_STRICT_MODE) if ENABLE_QA else None
+neo4j_connector: Optional[Neo4jConnector] = None
 
 # --- Logging ---
 logging.basicConfig(
@@ -88,7 +89,15 @@ def read_corpus(file_path: Path) -> str:
         return f"[ERROR reading {file_path.name}: {e}]"
 
 # --- Knowledge Extraction Passes ---
-def run_entity_pass(corpus: str):
+def run_entity_pass(corpus: str) -> List[Dict[str, Any]]:
+    """Extract entities from text corpus.
+
+    Args:
+        corpus: Input text to extract entities from
+
+    Returns:
+        List of entity dictionaries with keys: name, category, aliases
+    """
     prompt = PROMPTS["entity"].replace("{corpus}", corpus).replace("{top_n}", str(TOP_N))
     response = call_llm_with_prompt(prompt)
     try:
@@ -97,7 +106,16 @@ def run_entity_pass(corpus: str):
         logger.error("Failed to parse entity response as JSON")
         return []
 
-def run_relationship_pass(entities, corpus):
+def run_relationship_pass(entities: List[Dict[str, Any]], corpus: str) -> List[Dict[str, Any]]:
+    """Extract relationships between entities.
+
+    Args:
+        entities: List of previously extracted entities
+        corpus: Input text to extract relationships from
+
+    Returns:
+        List of relationship dictionaries with keys: subject, predicate, object, justification
+    """
     concepts = ", ".join([e["name"] for e in entities])
     prompt = PROMPTS["relationship"].replace("{concepts}", concepts).replace("{corpus}", corpus)
     response = call_llm_with_prompt(prompt)
@@ -107,7 +125,15 @@ def run_relationship_pass(entities, corpus):
         logger.error("Failed to parse relationship response as JSON")
         return []
 
-def run_rule_pass(corpus):
+def run_rule_pass(corpus: str) -> List[Dict[str, Any]]:
+    """Extract logical if-then rules from text.
+
+    Args:
+        corpus: Input text to extract rules from
+
+    Returns:
+        List of rule dictionaries with keys: id, if, then, confidence
+    """
     prompt = PROMPTS["rule"].replace("{corpus}", corpus)
     response = call_llm_with_prompt(prompt)
     try:
@@ -116,11 +142,28 @@ def run_rule_pass(corpus):
         logger.error("Failed to parse rule response as JSON")
         return []
 
-def run_ontology_pass(corpus):
+def run_ontology_pass(corpus: str) -> str:
+    """Generate ontology in Turtle/RDF format.
+
+    Args:
+        corpus: Input text to generate ontology from
+
+    Returns:
+        Ontology content in Turtle format
+    """
     prompt = PROMPTS["ontology"].replace("{corpus}", corpus)
     return call_llm_with_prompt(prompt)
 
-def run_justification_pass(rules, corpus):
+def run_justification_pass(rules: List[Dict[str, Any]], corpus: str) -> List[Dict[str, Any]]:
+    """Generate explanations for extracted rules.
+
+    Args:
+        rules: List of previously extracted rules
+        corpus: Input text for context
+
+    Returns:
+        List of justification dictionaries
+    """
     prompt = PROMPTS["justification"].replace("{corpus}", corpus).replace("{rules}", json.dumps(rules))
     response = call_llm_with_prompt(prompt)
     try:
@@ -131,9 +174,19 @@ def run_justification_pass(rules, corpus):
         return [{"explanation": response}]
 
 # --- File Processor ---
-master_metadata = []
+master_metadata: List[Dict[str, Any]] = []
 
-def process_corpus_file(file_path: Path):
+def process_corpus_file(file_path: Path) -> None:
+    """Process a single document file through the extraction pipeline.
+
+    Args:
+        file_path: Path to the document file to process
+
+    Side Effects:
+        - Saves JSON and TTL files to OUTPUT_DIR
+        - Appends metadata to master_metadata list
+        - Logs processing progress and errors
+    """
     try:
         corpus = read_corpus(file_path)
         base_name = file_path.stem
@@ -249,7 +302,20 @@ def process_corpus_file(file_path: Path):
             pass
 
 # --- Main Execution Pipeline ---
-def run_multi_pass_pipeline(input_path=None):
+def run_multi_pass_pipeline(input_path: Optional[str] = None) -> None:
+    """Execute the complete multi-pass knowledge extraction pipeline.
+
+    Args:
+        input_path: Optional path to input file or directory.
+                   If None, uses default INPUT_PATH
+
+    Side Effects:
+        - Processes all files in input_path
+        - Saves extraction results to OUTPUT_DIR
+        - Initializes and closes Neo4j connection if enabled
+        - Prints statistics to stdout
+        - Logs all operations
+    """
     global neo4j_connector
 
     # Initialize Neo4j connection if enabled
