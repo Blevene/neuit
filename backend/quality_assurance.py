@@ -54,6 +54,9 @@ class QualityAssurance:
         confidence = 1.0
 
         # Required field validation
+        # Track duplicate status before adding to seen set
+        duplicate_count = 0
+
         if not entity.get("name"):
             issues.append("Entity missing required 'name' field")
             confidence *= 0.0
@@ -62,6 +65,7 @@ class QualityAssurance:
 
             # Check for duplicates
             if name.lower() in self.seen_entities:
+                duplicate_count = 1
                 warnings.append(f"Duplicate entity: {name}")
             else:
                 self.seen_entities.add(name.lower())
@@ -113,7 +117,7 @@ class QualityAssurance:
 
         return QualityMetrics(
             confidence_score=max(0.0, min(1.0, confidence)),
-            duplicate_count=1 if entity.get("name", "").lower() in self.seen_entities else 0,
+            duplicate_count=duplicate_count,
             consistency_score=consistency_score,
             issues=issues,
             warnings=warnings
@@ -132,6 +136,7 @@ class QualityAssurance:
         issues = []
         warnings = []
         confidence = 1.0
+        duplicate_count = 0  # Initialize duplicate_count early
 
         # Required field validation
         subject = relationship.get("subject", "").strip()
@@ -153,7 +158,6 @@ class QualityAssurance:
             rel_tuple = (subject.lower(), predicate.lower(), obj.lower())
 
             # Check for duplicates
-            duplicate_count = 0
             if rel_tuple in self.seen_relationships:
                 duplicate_count = 1
                 warnings.append(f"Duplicate relationship: {subject} -> {predicate} -> {obj}")
