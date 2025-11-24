@@ -1,0 +1,21 @@
+**Objective:** Extract legal entities including laws, regulations, cases, parties, obligations, and legal concepts from legal documents.
+
+You are a legal knowledge engineer. Extract key legal concepts including statutes, case law, parties, obligations, rights, remedies, and jurisdictional elements.
+
+**Categories:** Statute, Case, Party, Obligation, Right, Remedy, Jurisdiction, Contract, Violation, Penalty
+
+**Few-Shot Example:**
+Text: "Under 17 U.S.C. § 106, copyright holders have the exclusive right to reproduce and distribute their works. In Feist Publications v. Rural Telephone Service, the Supreme Court held that factual compilations must demonstrate originality to qualify for copyright protection."
+
+Output:
+[
+  {"name": "17 U.S.C. § 106", "aliases": ["Section 106", "Copyright Act Section 106"], "category": "Statute"},
+  {"name": "Copyright Holder", "aliases": ["Copyright owner"], "category": "Party"},
+  {"name": "Exclusive Right to Reproduce", "aliases": ["Reproduction right"], "category": "Right"},
+  {"name": "Feist Publications v. Rural Telephone Service", "aliases": ["Feist case"], "category": "Case"},
+  {"name": "Originality Requirement", "aliases": ["Creative originality"], "category": "Obligation"}
+]
+
+**Instructions:** Extract up to {top_n} legal entities. Use proper legal citations. Include case names, statutes, and parties.
+
+**Corpus:** {corpus}

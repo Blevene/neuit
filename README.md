@@ -77,6 +77,10 @@ NEUIToolkit leverages cutting-edge neurosymbolic AI to automatically extract ent
 - At least one LLM API key (OpenAI, Anthropic, Google, or Ollama)
 - Optional: Neo4j database (for graph storage)
 
+### New in v1.1: Prompt Engineering Framework 🎯
+
+NEUIToolkit now includes a comprehensive prompt engineering system with domain-specific templates, few-shot learning, and A/B testing capabilities. See [PROMPT_ENGINEERING_GUIDE.md](PROMPT_ENGINEERING_GUIDE.md) for details.
+
 ### Installation
 
 ```bash
@@ -116,6 +120,10 @@ OPENAI_MODEL=gpt-4
 # Enable quality assurance (recommended)
 ENABLE_QA=true
 QA_MIN_CONFIDENCE=0.5
+
+# NEW: Select domain-specific prompts (optional)
+PROMPT_DOMAIN=education  # or: medical, scientific, legal, business, general
+PROMPT_VERSION=1.0.0
 ```
 
 ### Basic Usage
@@ -128,6 +136,9 @@ python backend/orchestrator.py
 
 # Process a specific file
 python backend/orchestrator.py path/to/document.pdf
+
+# Process with domain-specific prompts (NEW!)
+PROMPT_DOMAIN=medical python backend/orchestrator.py clinical_notes.pdf
 
 # Process a specific directory
 python backend/orchestrator.py --input path/to/documents/
@@ -628,10 +639,12 @@ See [PRD.md](planning/PRD.md) for the complete product roadmap and technical spe
 - [x] Enhanced Documentation and Examples
 
 ### Phase 2: Advanced Capabilities (Q1-Q2 2026)
-- [ ] **Prompt Engineering Framework**
-  - Domain-specific prompt templates
-  - Few-shot learning support
-  - Prompt versioning and A/B testing
+- [x] **Prompt Engineering Framework** ✅ (Completed - Nov 2025)
+  - Domain-specific prompt templates (5 domains: education, medical, scientific, legal, business)
+  - Few-shot learning support with high-quality examples
+  - Prompt evaluation and benchmarking system
+  - A/B testing infrastructure
+  - CLI management tools
 
 - [ ] **Incremental Processing**
   - Document change detection

@@ -1,0 +1,98 @@
+**Objective:** Extract clinical relationships including causes, treatments, symptoms, contraindications, and diagnostic associations from medical text.
+
+You are a medical knowledge engineer specializing in clinical relationship extraction. Extract semantic relationships between medical entities, focusing on causal relationships, treatment protocols, diagnostic criteria, and clinical associations.
+
+**Relationship Types to Identify:**
+- causes: Disease/condition A causes symptom/condition B
+- treats: Medication/procedure A treats disease B
+- diagnoses: Test/procedure A diagnoses condition B
+- indicates: Symptom A indicates disease B
+- contraindicated_with: Drug A is contraindicated with condition/drug B
+- complication_of: Condition A is a complication of condition B
+- located_in: Structure A is located in anatomy B
+- administered_for: Drug A is administered for condition B
+- prevents: Intervention A prevents condition B
+- increases_risk_of: Factor A increases risk of condition B
+
+**Few-Shot Examples:**
+
+Example 1:
+Corpus: "Hypertension increases the risk of stroke and myocardial infarction. ACE inhibitors effectively treat hypertension and reduce cardiovascular mortality. However, ACE inhibitors are contraindicated in pregnancy."
+Concepts: Hypertension, Stroke, Myocardial Infarction, ACE Inhibitors, Pregnancy
+
+Output:
+[
+  {
+    "subject": "Hypertension",
+    "predicate": "increases_risk_of",
+    "object": "Stroke",
+    "justification": "Hypertension increases the risk of stroke"
+  },
+  {
+    "subject": "Hypertension",
+    "predicate": "increases_risk_of",
+    "object": "Myocardial Infarction",
+    "justification": "Hypertension increases the risk of myocardial infarction"
+  },
+  {
+    "subject": "ACE Inhibitors",
+    "predicate": "treats",
+    "object": "Hypertension",
+    "justification": "ACE inhibitors effectively treat hypertension"
+  },
+  {
+    "subject": "ACE Inhibitors",
+    "predicate": "contraindicated_with",
+    "object": "Pregnancy",
+    "justification": "ACE inhibitors are contraindicated in pregnancy"
+  }
+]
+
+Example 2:
+Corpus: "Fever and productive cough indicate bacterial pneumonia. Chest X-ray confirms the diagnosis. Treatment includes antibiotics such as amoxicillin."
+Concepts: Fever, Productive Cough, Bacterial Pneumonia, Chest X-ray, Amoxicillin
+
+Output:
+[
+  {
+    "subject": "Fever",
+    "predicate": "indicates",
+    "object": "Bacterial Pneumonia",
+    "justification": "Fever indicates bacterial pneumonia"
+  },
+  {
+    "subject": "Productive Cough",
+    "predicate": "indicates",
+    "object": "Bacterial Pneumonia",
+    "justification": "Productive cough indicates bacterial pneumonia"
+  },
+  {
+    "subject": "Chest X-ray",
+    "predicate": "diagnoses",
+    "object": "Bacterial Pneumonia",
+    "justification": "Chest X-ray confirms the diagnosis of bacterial pneumonia"
+  },
+  {
+    "subject": "Amoxicillin",
+    "predicate": "treats",
+    "object": "Bacterial Pneumonia",
+    "justification": "Amoxicillin is used for treatment of bacterial pneumonia"
+  }
+]
+
+**Instructions:**
+1. Focus on clinically significant relationships
+2. Capture causal relationships accurately
+3. Include treatment protocols and medication relationships
+4. Identify diagnostic criteria and contraindications
+5. Use evidence-based medicine terminology
+6. Provide clear justifications with clinical context
+7. Return ONLY valid JSON array, no additional text
+
+**Corpus:**
+{corpus}
+
+**Known Concepts:**
+{concepts}
+
+**Output Format (JSON only):**

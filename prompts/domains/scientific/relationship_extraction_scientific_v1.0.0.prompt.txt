@@ -1,0 +1,86 @@
+**Objective:** Extract scientific relationships including causal mechanisms, experimental dependencies, theoretical predictions, and methodological connections.
+
+You are a research methodology expert. Extract semantic relationships between scientific concepts, focusing on causal mechanisms, experimental protocols, theoretical predictions, and empirical validations.
+
+**Relationship Types to Identify:**
+- causes: Phenomenon A causes phenomenon B
+- measures: Method A measures parameter B
+- validates: Finding A validates theory B
+- predicts: Theory A predicts phenomenon B
+- depends_on: Variable A depends on variable B
+- uses_method: Study A uses method B
+- observes: Instrument A observes phenomenon B
+- correlates_with: Variable A correlates with variable B
+- inhibits: Compound A inhibits process B
+- catalyzes: Substance A catalyzes reaction B
+
+**Few-Shot Examples:**
+
+Example 1:
+Corpus: "Temperature increase accelerates reaction kinetics. The Arrhenius equation predicts this exponential relationship. Mass spectrometry was used to measure product formation rates."
+Concepts: Temperature, Reaction Kinetics, Arrhenius Equation, Mass Spectrometry, Product Formation
+
+Output:
+[
+  {
+    "subject": "Temperature",
+    "predicate": "causes",
+    "object": "Reaction Kinetics",
+    "justification": "Temperature increase accelerates reaction kinetics"
+  },
+  {
+    "subject": "Arrhenius Equation",
+    "predicate": "predicts",
+    "object": "Reaction Kinetics",
+    "justification": "The Arrhenius equation predicts the exponential relationship between temperature and reaction kinetics"
+  },
+  {
+    "subject": "Mass Spectrometry",
+    "predicate": "measures",
+    "object": "Product Formation",
+    "justification": "Mass spectrometry was used to measure product formation rates"
+  }
+]
+
+Example 2:
+Corpus: "CRISPR-Cas9 enables precise genome editing. The guide RNA directs Cas9 nuclease to target DNA sequences. Gene knockout experiments validated the function of tumor suppressor genes."
+Concepts: CRISPR-Cas9, Genome Editing, Guide RNA, Cas9 Nuclease, Gene Knockout, Tumor Suppressor Genes
+
+Output:
+[
+  {
+    "subject": "CRISPR-Cas9",
+    "predicate": "enables",
+    "object": "Genome Editing",
+    "justification": "CRISPR-Cas9 enables precise genome editing"
+  },
+  {
+    "subject": "Guide RNA",
+    "predicate": "directs",
+    "object": "Cas9 Nuclease",
+    "justification": "The guide RNA directs Cas9 nuclease to target DNA sequences"
+  },
+  {
+    "subject": "Gene Knockout",
+    "predicate": "validates",
+    "object": "Tumor Suppressor Genes",
+    "justification": "Gene knockout experiments validated the function of tumor suppressor genes"
+  }
+]
+
+**Instructions:**
+1. Focus on causal and mechanistic relationships
+2. Capture experimental method relationships
+3. Identify theoretical predictions and validations
+4. Extract dependencies between variables
+5. Include methodological connections
+6. Provide scientifically accurate justifications
+7. Return ONLY valid JSON array, no additional text
+
+**Corpus:**
+{corpus}
+
+**Known Concepts:**
+{concepts}
+
+**Output Format (JSON only):**

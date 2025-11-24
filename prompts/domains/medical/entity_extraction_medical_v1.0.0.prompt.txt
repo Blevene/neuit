@@ -1,0 +1,118 @@
+**Objective:** Extract medical entities including diseases, symptoms, treatments, medications, procedures, and anatomical structures from medical text.
+
+You are a medical informatics expert specializing in clinical knowledge extraction. Extract all relevant medical concepts including diagnoses, symptoms, treatments, medications, procedures, anatomical structures, and clinical findings.
+
+**Focus Areas:**
+- Diseases and conditions
+- Signs and symptoms
+- Medications and drugs
+- Procedures and interventions
+- Anatomical structures and organs
+- Laboratory tests and values
+- Clinical findings and observations
+- Medical devices and equipment
+
+**Categories to Use:**
+- Disease: Pathological conditions, disorders, syndromes
+- Symptom: Clinical manifestations, signs, complaints
+- Medication: Drugs, pharmaceuticals, therapeutic agents
+- Procedure: Surgical interventions, diagnostic tests, treatments
+- Anatomy: Body structures, organs, tissues
+- Finding: Clinical observations, lab results, vitals
+- Device: Medical instruments, equipment, implants
+- Organism: Pathogens, bacteria, viruses
+
+**Few-Shot Examples:**
+
+Example 1:
+Text: "The patient presented with acute chest pain and dyspnea. ECG showed ST-segment elevation. Cardiac catheterization revealed a 90% occlusion of the left anterior descending artery. Treatment initiated with aspirin, clopidogrel, and immediate percutaneous coronary intervention."
+
+Output:
+[
+  {
+    "name": "Acute Chest Pain",
+    "aliases": ["Chest discomfort", "Cardiac pain"],
+    "category": "Symptom"
+  },
+  {
+    "name": "Dyspnea",
+    "aliases": ["Shortness of breath", "Breathing difficulty"],
+    "category": "Symptom"
+  },
+  {
+    "name": "ST-Segment Elevation",
+    "aliases": ["STEMI pattern", "ST elevation"],
+    "category": "Finding"
+  },
+  {
+    "name": "Cardiac Catheterization",
+    "aliases": ["Heart catheterization", "Coronary angiography"],
+    "category": "Procedure"
+  },
+  {
+    "name": "Left Anterior Descending Artery",
+    "aliases": ["LAD", "LAD artery"],
+    "category": "Anatomy"
+  },
+  {
+    "name": "Aspirin",
+    "aliases": ["Acetylsalicylic acid", "ASA"],
+    "category": "Medication"
+  },
+  {
+    "name": "Clopidogrel",
+    "aliases": ["Plavix"],
+    "category": "Medication"
+  },
+  {
+    "name": "Percutaneous Coronary Intervention",
+    "aliases": ["PCI", "Coronary angioplasty"],
+    "category": "Procedure"
+  }
+]
+
+Example 2:
+Text: "Type 2 diabetes mellitus managed with metformin and lifestyle modifications. Patient exhibits peripheral neuropathy and requires annual retinal examination to monitor for diabetic retinopathy."
+
+Output:
+[
+  {
+    "name": "Type 2 Diabetes Mellitus",
+    "aliases": ["T2DM", "Type II diabetes", "Non-insulin dependent diabetes"],
+    "category": "Disease"
+  },
+  {
+    "name": "Metformin",
+    "aliases": ["Glucophage"],
+    "category": "Medication"
+  },
+  {
+    "name": "Peripheral Neuropathy",
+    "aliases": ["Nerve damage", "Diabetic neuropathy"],
+    "category": "Disease"
+  },
+  {
+    "name": "Retinal Examination",
+    "aliases": ["Eye exam", "Fundoscopy", "Ophthalmoscopy"],
+    "category": "Procedure"
+  },
+  {
+    "name": "Diabetic Retinopathy",
+    "aliases": ["Diabetic eye disease"],
+    "category": "Disease"
+  }
+]
+
+**Instructions:**
+1. Extract up to {top_n} most clinically significant entities
+2. Use standard medical terminology (avoid colloquialisms)
+3. Include both generic and brand names for medications
+4. Capture anatomical locations with precision
+5. Include abbreviations as aliases where appropriate
+6. Focus on clinically actionable information
+7. Return ONLY valid JSON array, no additional text
+
+**Corpus to Analyze:**
+{corpus}
+
+**Output Format (JSON only):**

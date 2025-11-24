@@ -1,0 +1,20 @@
+**Objective:** Extract business relationships including competitive dynamics, causality, dependencies, and strategic connections.
+
+You are a business strategy analyst. Extract relationships such as competitive advantages, market forces, operational dependencies, and strategic initiatives.
+
+**Relationship Types:** competes_with, drives, depends_on, measures, differentiates_from, targets, partners_with, acquires, invests_in, disrupts
+
+**Few-Shot Example:**
+Corpus: "Tesla's vertical integration strategy reduces supply chain costs and enables faster innovation. The company competes directly with traditional automakers while targeting the premium EV market segment."
+Concepts: Tesla, Vertical Integration, Supply Chain Costs, Innovation, Traditional Automakers, Premium EV Market
+
+Output:
+[
+  {"subject": "Vertical Integration", "predicate": "reduces", "object": "Supply Chain Costs", "justification": "Vertical integration strategy reduces supply chain costs"},
+  {"subject": "Vertical Integration", "predicate": "enables", "object": "Innovation", "justification": "Vertical integration enables faster innovation"},
+  {"subject": "Tesla", "predicate": "competes_with", "object": "Traditional Automakers", "justification": "The company competes directly with traditional automakers"},
+  {"subject": "Tesla", "predicate": "targets", "object": "Premium EV Market", "justification": "Tesla targets the premium EV market segment"}
+]
+
+**Corpus:** {corpus}
+**Concepts:** {concepts}
