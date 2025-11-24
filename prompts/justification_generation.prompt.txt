@@ -1,0 +1,232 @@
+**Objective:** Generate clear, evidence-based natural language explanations that justify extracted rules, relationships, or facts using information from the source corpus.
+
+**Your Role:**
+You are an expert explainer and technical writer specializing in making complex logical relationships understandable. Your task is to transform formal rules, relationships, or patterns into clear, well-justified natural language explanations that cite evidence from the source text.
+
+**What Makes a Good Explanation:**
+
+1. **Evidence-Based**: Directly reference specific information from the corpus
+2. **Clear and Concise**: Use straightforward language; typically 1-3 sentences
+3. **Causal or Logical**: Explain WHY the rule/relationship holds, not just WHAT it is
+4. **Self-Contained**: The explanation should make sense without needing to re-read the corpus
+5. **Precise**: Use domain-appropriate terminology accurately
+6. **Non-Redundant**: Don't simply restate the rule; add explanatory value
+
+**Types of Explanations:**
+
+**For Rules (IF-THEN):**
+- Explain the logical dependency or causal relationship
+- Describe why the antecedent leads to the consequent
+- Reference prerequisite relationships, causal chains, or compositional dependencies
+
+**For Relationships (Subject-Predicate-Object):**
+- Explain how the subject and object are connected
+- Describe the nature of the predicate relationship
+- Provide context about why this relationship is significant
+
+**For Facts/Triples:**
+- Provide supporting evidence from the corpus
+- Explain the context or significance
+- Describe implications or consequences
+
+**Instructions:**
+
+1. Read the input rule/relationship/fact carefully
+2. Identify the key concepts involved
+3. Reference the corpus to find supporting evidence
+4. Write an explanation that:
+   - Clarifies WHY the relationship holds (not just that it does)
+   - Cites specific evidence or reasoning from the corpus
+   - Uses domain-appropriate language
+   - Is concise but complete (1-3 sentences)
+5. Ensure each explanation is unique and adds value
+6. Avoid generic statements like "The text says..." or "According to the corpus..."
+7. Focus on the logical, causal, or structural reasoning
+
+**Output Format:**
+Return a valid JSON array. Each object must have exactly two fields:
+- **source**: The original rule/relationship/fact being explained (as a string)
+- **justification**: Your natural language explanation (1-3 sentences)
+
+**Few-Shot Examples:**
+
+**Example 1: Educational Rules**
+
+Input Rules:
+- IF "Algebra" THEN "Calculus"
+- IF "Derivatives" THEN "Integration"
+- IF "Basic Programming" THEN "Data Structures"
+
+Corpus: "Before learning calculus, students must have a solid understanding of algebra. Calculus builds on algebraic concepts like functions, equations, and graphing. Integration cannot be properly understood without first mastering derivatives, as integration is essentially the inverse operation. Similarly, data structures like linked lists and trees require foundational programming knowledge including variables, loops, and functions."
+
+Output:
+[
+  {
+    "source": "IF Algebra THEN Calculus",
+    "justification": "Calculus builds directly on algebraic concepts such as functions, equations, and graphing, making algebra a necessary foundation before tackling calculus topics."
+  },
+  {
+    "source": "IF Derivatives THEN Integration",
+    "justification": "Integration is the inverse operation of differentiation, so understanding how derivatives work is essential to grasping the concept and mechanics of integration."
+  },
+  {
+    "source": "IF Basic Programming THEN Data Structures",
+    "justification": "Data structures like linked lists and trees require foundational programming skills including variables, loops, and functions to understand their implementation and usage."
+  }
+]
+
+**Example 2: Medical Relationships**
+
+Input Relationships:
+- Hypertension → causes → Cardiovascular Disease
+- Aspirin → treats → Inflammation
+- Diabetes → increases_risk_of → Hypertension
+
+Corpus: "Hypertension, or chronic high blood pressure, damages blood vessels over time and increases the workload on the heart, leading to cardiovascular disease. Aspirin works as an anti-inflammatory medication by inhibiting enzymes that produce inflammatory compounds. Patients with diabetes often develop hypertension due to factors like insulin resistance, increased sodium retention, and damage to blood vessels."
+
+Output:
+[
+  {
+    "source": "Hypertension causes Cardiovascular Disease",
+    "justification": "Chronic high blood pressure damages blood vessels and increases cardiac workload over time, which progressively leads to various forms of cardiovascular disease."
+  },
+  {
+    "source": "Aspirin treats Inflammation",
+    "justification": "Aspirin functions as an anti-inflammatory by inhibiting the enzymes responsible for producing inflammatory compounds in the body."
+  },
+  {
+    "source": "Diabetes increases risk of Hypertension",
+    "justification": "Diabetic patients are prone to developing hypertension because diabetes causes insulin resistance, increased sodium retention, and blood vessel damage, all of which elevate blood pressure."
+  }
+]
+
+**Example 3: Software Development Rules**
+
+Input Rules:
+- IF "Requirements Gathering" THEN "Design"
+- IF "Code Review" THEN "Deployment"
+- IF "Failed Tests" THEN "Code Revision"
+
+Corpus: "Requirements gathering establishes what the software must do, which directly informs design decisions about architecture and components. Code should not be deployed to production until it has been reviewed by peers to catch bugs and ensure quality standards. When automated tests fail, the code must be revised and retested before it can be merged into the main branch."
+
+Output:
+[
+  {
+    "source": "IF Requirements Gathering THEN Design",
+    "justification": "Requirements gathering defines the functional and non-functional specifications of the software, which serve as the foundation for making architectural and component design decisions."
+  },
+  {
+    "source": "IF Code Review THEN Deployment",
+    "justification": "Peer code reviews are a mandatory quality gate that must be completed before production deployment to identify bugs, ensure adherence to standards, and maintain code quality."
+  },
+  {
+    "source": "IF Failed Tests THEN Code Revision",
+    "justification": "Failed automated tests indicate defects or regressions in the code that must be fixed through revision and successful re-testing before the code can be merged."
+  }
+]
+
+**Example 4: Scientific Relationships**
+
+Input Relationships:
+- Photosynthesis → produces → Oxygen
+- Chlorophyll → absorbs → Light Energy
+- Temperature → affects → Reaction Rate
+
+Corpus: "During photosynthesis, plants split water molecules and release oxygen as a byproduct while forming glucose. Chlorophyll pigments absorb light energy in the blue and red wavelengths, which powers the photosynthetic reactions. Higher temperatures generally increase the kinetic energy of molecules, causing reactions to proceed faster, though extreme heat can denature enzymes and slow or stop reactions."
+
+Output:
+[
+  {
+    "source": "Photosynthesis produces Oxygen",
+    "justification": "Oxygen is released as a byproduct when plants split water molecules during the light-dependent reactions of photosynthesis while synthesizing glucose."
+  },
+  {
+    "source": "Chlorophyll absorbs Light Energy",
+    "justification": "Chlorophyll pigments capture light energy primarily in the blue and red wavelengths, which provides the energy needed to drive photosynthetic reactions."
+  },
+  {
+    "source": "Temperature affects Reaction Rate",
+    "justification": "Higher temperatures increase molecular kinetic energy, causing chemical reactions to proceed more rapidly, although extreme temperatures can denature enzymes and inhibit reactions."
+  }
+]
+
+**Example 5: Legal Rules**
+
+Input Rules:
+- IF "Offer AND Acceptance AND Consideration" THEN "Valid Contract"
+- IF "Duress" THEN "Voidable Contract"
+- IF "Breach of Contract" THEN "Damages"
+
+Corpus: "A legally binding contract requires three essential elements: an offer from one party, acceptance by the other party, and consideration (something of value exchanged). Contracts entered into under duress—where one party is forced or coerced—are voidable, meaning the coerced party can choose to void the agreement. When a party breaches a contract by failing to fulfill their obligations, the non-breaching party may seek damages as financial compensation for losses incurred."
+
+Output:
+[
+  {
+    "source": "IF Offer AND Acceptance AND Consideration THEN Valid Contract",
+    "justification": "A contract becomes legally binding only when all three essential elements are present: one party makes an offer, the other party accepts it, and both parties exchange something of value (consideration)."
+  },
+  {
+    "source": "IF Duress THEN Voidable Contract",
+    "justification": "Contracts signed under duress involve force or coercion, which violates the principle of voluntary consent, allowing the coerced party to legally void the agreement."
+  },
+  {
+    "source": "IF Breach of Contract THEN Damages",
+    "justification": "When one party fails to fulfill their contractual obligations, the non-breaching party is entitled to seek financial compensation (damages) to recover losses resulting from the breach."
+  }
+]
+
+**Example 6: Business/Economic Relationships**
+
+Input Relationships:
+- Supply → affects → Price
+- Marketing → increases → Brand Awareness
+- Competition → influences → Pricing Strategy
+
+Corpus: "When supply decreases relative to demand, prices typically rise due to scarcity. Effective marketing campaigns increase brand awareness by reaching target audiences through multiple channels and consistent messaging. Companies adjust their pricing strategies based on competitive pressures; in highly competitive markets, businesses often lower prices or add value to remain attractive to customers."
+
+Output:
+[
+  {
+    "source": "Supply affects Price",
+    "justification": "Changes in supply relative to demand directly impact pricing; when supply decreases, scarcity drives prices higher, while increased supply typically lowers prices."
+  },
+  {
+    "source": "Marketing increases Brand Awareness",
+    "justification": "Effective marketing campaigns expand brand awareness by strategically reaching target audiences through multiple channels with consistent messaging that reinforces brand recognition."
+  },
+  {
+    "source": "Competition influences Pricing Strategy",
+    "justification": "Competitive market pressures force companies to adjust their pricing strategies, often leading to price reductions or value-added offerings to maintain customer appeal and market share."
+  }
+]
+
+**Edge Cases:**
+
+- **Multiple rules/relationships**: Generate a unique explanation for each, even if they're related
+- **Complex conditional rules**: Break down the logic into understandable components
+- **Insufficient corpus information**: Focus on the logical relationship and general domain knowledge
+- **Highly technical content**: Maintain precision while ensuring clarity
+- **Overlapping explanations**: Ensure each explanation adds distinct value; don't repeat information
+- **Ambiguous relationships**: Explain the most likely interpretation based on context
+
+**Quality Checklist:**
+
+Before submitting your output, verify:
+- ✓ Each explanation is 1-3 sentences (concise but complete)
+- ✓ Explanations focus on WHY, not just WHAT
+- ✓ Evidence from the corpus is incorporated (directly or indirectly)
+- ✓ Domain terminology is used accurately
+- ✓ Each explanation is unique and non-redundant
+- ✓ The source field exactly matches the input format
+- ✓ JSON is valid and properly formatted
+- ✓ Explanations are self-contained and clear
+
+---
+
+**Input Rules/Relationships:**
+{rules}
+
+**Corpus:**
+{corpus}
+
+**Respond with valid JSON only. Do not include any explanatory text before or after the JSON array.**

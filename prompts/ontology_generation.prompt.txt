@@ -1,24 +1,430 @@
-**Objective:** Generate a minimal ontology using OWL (Turtle syntax).
+**Objective:** Generate a formal, well-structured ontology in OWL (Web Ontology Language) using Turtle syntax to represent the domain knowledge from the corpus.
 
+**Your Role:**
+You are an expert ontology engineer and semantic web specialist. Your task is to create a formal ontology that captures the class hierarchy, properties, relationships, and constraints of the domain described in the corpus. The ontology should be machine-readable, logically consistent, and follow OWL 2 best practices.
 
-Create a semantic class hierarchy and properties using RDF/Turtle.
+**Ontology Components:**
 
-Use:
-- owl:Class
-- rdfs:subClassOf
-- owl:ObjectProperty or owl:DatatypeProperty
+1. **Classes (owl:Class)**
+   - Represent concepts, entities, and categories
+   - Define a hierarchical taxonomy using rdfs:subClassOf
+   - Use clear, descriptive class names (CamelCase convention)
 
-Format:
-@prefix : <http://example.org/ontology#> .
+2. **Object Properties (owl:ObjectProperty)**
+   - Represent relationships between classes
+   - Define domain (source class) and range (target class)
+   - Include inverse properties where appropriate
 
-:Neuron rdf:type owl:Class .
-:MotorNeuron rdf:type owl:Class ;
-             rdfs:subClassOf :Neuron .
+3. **Datatype Properties (owl:DatatypeProperty)**
+   - Represent attributes with literal values (strings, numbers, dates)
+   - Define domain (class) and range (data type)
 
-:transmitsSignal rdf:type owl:ObjectProperty ;
-                 rdfs:domain :Neuron ;
-                 rdfs:range :Signal .
+4. **Individuals (optional)**
+   - Specific instances of classes
+   - Use when the corpus mentions concrete examples
 
------
+5. **Axioms and Restrictions**
+   - Cardinality constraints
+   - Disjoint classes
+   - Equivalent classes
+   - Property characteristics (transitive, symmetric, functional, etc.)
 
-Corpus: {corpus}
+**Turtle Syntax Guidelines:**
+
+- Use standard prefixes: `@prefix`, `rdf:`, `rdfs:`, `owl:`, `xsd:`
+- Define a custom namespace for your ontology (e.g., `:` for `<http://example.org/ontology#>`)
+- Use semicolons (`;`) to chain properties for the same subject
+- Use commas (`,`) to list multiple objects for the same predicate
+- End statements with periods (`.`)
+- Add comments with `#` for clarity
+
+**Property Characteristics:**
+
+- **owl:TransitiveProperty**: If A→B and B→C, then A→C (e.g., `partOf`)
+- **owl:SymmetricProperty**: If A→B, then B→A (e.g., `connectedTo`)
+- **owl:FunctionalProperty**: Each subject has at most one value (e.g., `hasAge`)
+- **owl:InverseFunctionalProperty**: Each object has at most one subject (e.g., `hasSSN`)
+- **owl:AsymmetricProperty**: If A→B, then not B→A (e.g., `parentOf`)
+- **owl:ReflexiveProperty**: Every instance relates to itself
+- **owl:IrreflexiveProperty**: No instance relates to itself
+
+**Instructions:**
+
+1. Analyze the corpus to identify:
+   - Key concepts and entities → Classes
+   - Hierarchical relationships → subClassOf
+   - Relationships between concepts → Object Properties
+   - Attributes and characteristics → Datatype Properties
+   - Specific instances → Individuals
+
+2. Create a class hierarchy:
+   - Organize classes from general to specific
+   - Use meaningful class names that reflect the domain
+   - Ensure single inheritance when possible; use multiple inheritance sparingly
+
+3. Define properties:
+   - Create descriptive property names (camelCase for properties)
+   - Specify domain and range for all properties
+   - Add inverse properties for bidirectional relationships
+   - Apply property characteristics where appropriate
+
+4. Add constraints and axioms:
+   - Define disjoint classes where concepts are mutually exclusive
+   - Add cardinality restrictions (exactly 1, at least 1, at most 1, etc.)
+   - Use equivalent class definitions for alternate representations
+
+5. Ensure logical consistency:
+   - Avoid circular definitions
+   - Don't create contradictory axioms
+   - Verify that domain and range constraints are compatible
+
+6. Follow naming conventions:
+   - Classes: UpperCamelCase (e.g., `NeuralNetwork`, `DataScientist`)
+   - Properties: lowerCamelCase (e.g., `hasProperty`, `trainedOn`)
+   - Clear, descriptive names over abbreviations
+
+**Output Format:**
+
+Return valid Turtle/RDF syntax. Include:
+- Prefix declarations
+- Class definitions with hierarchy
+- Property definitions with domains and ranges
+- Individuals (if applicable)
+- Axioms and constraints
+
+**Few-Shot Examples:**
+
+**Example 1: Biology Domain**
+
+Corpus: "Cells are the basic unit of life. Eukaryotic cells contain a nucleus, while prokaryotic cells do not. Plant cells and animal cells are both eukaryotic. Mitochondria are organelles that produce energy. The cell membrane surrounds all cells and regulates what enters and exits."
+
+Output:
+```turtle
+@prefix : <http://example.org/biology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Ontology Declaration
+: rdf:type owl:Ontology ;
+   rdfs:label "Biology Cell Ontology" ;
+   rdfs:comment "An ontology describing cellular structures and types" .
+
+# Classes
+:Cell rdf:type owl:Class ;
+      rdfs:label "Cell" ;
+      rdfs:comment "The basic unit of life" .
+
+:EukaryoticCell rdf:type owl:Class ;
+                rdfs:subClassOf :Cell ;
+                rdfs:label "Eukaryotic Cell" ;
+                rdfs:comment "Cells that contain a nucleus" .
+
+:ProkaryoticCell rdf:type owl:Class ;
+                 rdfs:subClassOf :Cell ;
+                 rdfs:label "Prokaryotic Cell" ;
+                 rdfs:comment "Cells without a nucleus" .
+
+:PlantCell rdf:type owl:Class ;
+           rdfs:subClassOf :EukaryoticCell ;
+           rdfs:label "Plant Cell" .
+
+:AnimalCell rdf:type owl:Class ;
+            rdfs:subClassOf :EukaryoticCell ;
+            rdfs:label "Animal Cell" .
+
+:Organelle rdf:type owl:Class ;
+           rdfs:label "Organelle" ;
+           rdfs:comment "Specialized structures within cells" .
+
+:Mitochondria rdf:type owl:Class ;
+              rdfs:subClassOf :Organelle ;
+              rdfs:label "Mitochondria" ;
+              rdfs:comment "Energy-producing organelles" .
+
+:Nucleus rdf:type owl:Class ;
+         rdfs:subClassOf :Organelle ;
+         rdfs:label "Nucleus" .
+
+:CellMembrane rdf:type owl:Class ;
+              rdfs:label "Cell Membrane" ;
+              rdfs:comment "Membrane surrounding all cells" .
+
+# Disjoint Classes
+:EukaryoticCell owl:disjointWith :ProkaryoticCell .
+:PlantCell owl:disjointWith :AnimalCell .
+
+# Object Properties
+:contains rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cell ;
+          rdfs:range :Organelle ;
+          rdfs:label "contains" .
+
+:surrounds rdf:type owl:ObjectProperty ;
+           rdfs:domain :CellMembrane ;
+           rdfs:range :Cell ;
+           rdfs:label "surrounds" .
+
+:produces rdf:type owl:ObjectProperty ;
+          rdfs:domain :Organelle ;
+          rdfs:label "produces" .
+
+# Datatype Properties
+:hasFunction rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Organelle ;
+             rdfs:range xsd:string .
+
+# Restrictions
+:EukaryoticCell rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :contains ;
+    owl:someValuesFrom :Nucleus
+] .
+```
+
+**Example 2: Machine Learning Domain**
+
+Corpus: "Machine learning models are trained using datasets. Supervised learning uses labeled data, while unsupervised learning works with unlabeled data. Neural networks are a type of machine learning model. Training produces a model that can make predictions. Overfitting occurs when a model performs well on training data but poorly on test data."
+
+Output:
+```turtle
+@prefix : <http://example.org/ml#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+: rdf:type owl:Ontology ;
+   rdfs:label "Machine Learning Ontology" .
+
+# Classes
+:Model rdf:type owl:Class ;
+       rdfs:label "Model" ;
+       rdfs:comment "A machine learning model" .
+
+:NeuralNetwork rdf:type owl:Class ;
+               rdfs:subClassOf :Model ;
+               rdfs:label "Neural Network" .
+
+:Dataset rdf:type owl:Class ;
+         rdfs:label "Dataset" .
+
+:LabeledData rdf:type owl:Class ;
+             rdfs:subClassOf :Dataset ;
+             rdfs:label "Labeled Data" .
+
+:UnlabeledData rdf:type owl:Class ;
+               rdfs:subClassOf :Dataset ;
+               rdfs:label "Unlabeled Data" .
+
+:LearningMethod rdf:type owl:Class ;
+                rdfs:label "Learning Method" .
+
+:SupervisedLearning rdf:type owl:Class ;
+                    rdfs:subClassOf :LearningMethod ;
+                    rdfs:label "Supervised Learning" .
+
+:UnsupervisedLearning rdf:type owl:Class ;
+                      rdfs:subClassOf :LearningMethod ;
+                      rdfs:label "Unsupervised Learning" .
+
+:Prediction rdf:type owl:Class ;
+            rdfs:label "Prediction" .
+
+:Problem rdf:type owl:Class ;
+         rdfs:label "Problem" .
+
+:Overfitting rdf:type owl:Class ;
+             rdfs:subClassOf :Problem ;
+             rdfs:label "Overfitting" .
+
+# Disjoint Classes
+:LabeledData owl:disjointWith :UnlabeledData .
+:SupervisedLearning owl:disjointWith :UnsupervisedLearning .
+
+# Object Properties
+:trainedOn rdf:type owl:ObjectProperty ;
+           rdfs:domain :Model ;
+           rdfs:range :Dataset ;
+           rdfs:label "trained on" .
+
+:uses rdf:type owl:ObjectProperty ;
+      rdfs:domain :LearningMethod ;
+      rdfs:range :Dataset ;
+      rdfs:label "uses" .
+
+:produces rdf:type owl:ObjectProperty ;
+          rdfs:domain :Model ;
+          rdfs:range :Prediction ;
+          rdfs:label "produces" .
+
+:suffers_from rdf:type owl:ObjectProperty ;
+              rdfs:domain :Model ;
+              rdfs:range :Problem ;
+              rdfs:label "suffers from" .
+
+# Datatype Properties
+:accuracy rdf:type owl:DatatypeProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :Model ;
+          rdfs:range xsd:float .
+
+# Restrictions
+:SupervisedLearning rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :uses ;
+    owl:someValuesFrom :LabeledData
+] .
+
+:UnsupervisedLearning rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :uses ;
+    owl:someValuesFrom :UnlabeledData
+] .
+```
+
+**Example 3: Legal Domain**
+
+Corpus: "A contract is an agreement between two or more parties. Valid contracts require offer, acceptance, and consideration. Parties can be individuals or organizations. Breach of contract occurs when a party fails to fulfill their obligations. Remedies include damages or specific performance."
+
+Output:
+```turtle
+@prefix : <http://example.org/legal#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+: rdf:type owl:Ontology ;
+   rdfs:label "Contract Law Ontology" .
+
+# Classes
+:Contract rdf:type owl:Class ;
+          rdfs:label "Contract" ;
+          rdfs:comment "Agreement between parties" .
+
+:ValidContract rdf:type owl:Class ;
+               rdfs:subClassOf :Contract ;
+               rdfs:label "Valid Contract" .
+
+:Party rdf:type owl:Class ;
+       rdfs:label "Party" ;
+       rdfs:comment "Entity entering into a contract" .
+
+:Individual rdf:type owl:Class ;
+            rdfs:subClassOf :Party ;
+            rdfs:label "Individual" .
+
+:Organization rdf:type owl:Class ;
+              rdfs:subClassOf :Party ;
+              rdfs:label "Organization" .
+
+:ContractElement rdf:type owl:Class ;
+                 rdfs:label "Contract Element" .
+
+:Offer rdf:type owl:Class ;
+       rdfs:subClassOf :ContractElement ;
+       rdfs:label "Offer" .
+
+:Acceptance rdf:type owl:Class ;
+            rdfs:subClassOf :ContractElement ;
+            rdfs:label "Acceptance" .
+
+:Consideration rdf:type owl:Class ;
+               rdfs:subClassOf :ContractElement ;
+               rdfs:label "Consideration" .
+
+:Breach rdf:type owl:Class ;
+        rdfs:label "Breach of Contract" .
+
+:Remedy rdf:type owl:Class ;
+        rdfs:label "Remedy" .
+
+:Damages rdf:type owl:Class ;
+         rdfs:subClassOf :Remedy ;
+         rdfs:label "Damages" .
+
+:SpecificPerformance rdf:type owl:Class ;
+                     rdfs:subClassOf :Remedy ;
+                     rdfs:label "Specific Performance" .
+
+# Disjoint Classes
+:Individual owl:disjointWith :Organization .
+
+# Object Properties
+:hasParty rdf:type owl:ObjectProperty ;
+          rdfs:domain :Contract ;
+          rdfs:range :Party ;
+          rdfs:label "has party" .
+
+:requires rdf:type owl:ObjectProperty ;
+          rdfs:domain :ValidContract ;
+          rdfs:range :ContractElement ;
+          rdfs:label "requires" .
+
+:breaches rdf:type owl:ObjectProperty ;
+          rdfs:domain :Party ;
+          rdfs:range :Contract ;
+          rdfs:label "breaches" .
+
+:resultsIn rdf:type owl:ObjectProperty ;
+           rdfs:domain :Breach ;
+           rdfs:range :Remedy ;
+           rdfs:label "results in" .
+
+# Datatype Properties
+:contractDate rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Contract ;
+              rdfs:range xsd:date .
+
+# Restrictions
+:ValidContract rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :requires ;
+    owl:someValuesFrom :Offer
+] , [
+    rdf:type owl:Restriction ;
+    owl:onProperty :requires ;
+    owl:someValuesFrom :Acceptance
+] , [
+    rdf:type owl:Restriction ;
+    owl:onProperty :requires ;
+    owl:someValuesFrom :Consideration
+] .
+
+:Contract rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasParty ;
+    owl:minCardinality "2"^^xsd:nonNegativeInteger
+] .
+```
+
+**Edge Cases:**
+
+- **Minimal corpus**: Create a small but valid ontology with the available information
+- **Complex hierarchies**: Use multiple levels of subClassOf for deep taxonomies
+- **Multiple domains**: Create separate class hierarchies for distinct concept groups
+- **Abstract concepts**: Model abstract ideas as classes even without concrete instances
+- **Uncertainty**: Use rdfs:comment to note assumptions or interpretations
+- **Synonyms**: Use rdfs:label with multiple language tags or create equivalent classes
+
+**Quality Checklist:**
+
+Before submitting your output, verify:
+- ✓ All prefixes are properly declared
+- ✓ Turtle syntax is valid (proper use of `;`, `,`, and `.`)
+- ✓ Class hierarchy is logical and consistent
+- ✓ All properties have appropriate domains and ranges
+- ✓ Disjoint classes are correctly specified
+- ✓ No circular class hierarchies (A subClassOf B, B subClassOf A)
+- ✓ Property names follow camelCase convention
+- ✓ Class names follow UpperCamelCase convention
+- ✓ Comments and labels provide clarity
+
+---
+
+**Corpus:**
+{corpus}
+
+**Respond with valid Turtle/RDF syntax only. Do not include any explanatory text before or after the ontology definition.**

@@ -102,8 +102,9 @@ class PromptTemplate:
     def _extract_variables(self) -> None:
         """Extract variable names from template."""
         # Find all {variable} and {{variable}} patterns
-        single_brace = set(re.findall(r'\{([^{}]+)\}', self.template))
-        double_brace = set(re.findall(r'\{\{([^{}]+)\}\}', self.template))
+        # Only match valid variable names (alphanumeric + underscores)
+        single_brace = set(re.findall(r'\{([a-zA-Z_][a-zA-Z0-9_]*)\}', self.template))
+        double_brace = set(re.findall(r'\{\{([a-zA-Z_][a-zA-Z0-9_]*)\}\}', self.template))
 
         self.variables = single_brace | double_brace
 

@@ -1,23 +1,286 @@
-**Objective:** Infer prerequisite or conditional rules from educational text.
+**Objective:** Infer logical rules, patterns, and conditional relationships from text to represent domain knowledge in a structured, machine-readable format.
 
+**Your Role:**
+You are an expert knowledge engineer specializing in rule induction and logical reasoning. Your task is to identify if-then rules, causal relationships, prerequisites, dependencies, and conditional patterns that are explicitly stated or strongly implied in the source text.
 
-From the following corpus, infer symbolic rules that reflect conceptual prerequisites.
+**Rule Structure:**
+Each rule follows a conditional logic pattern:
+- **id**: Unique integer identifier for the rule
+- **if**: The antecedent (condition) - one or more concepts that must be true/present
+- **then**: The consequent (result) - the concept that follows or is enabled
+- **confidence**: A numerical score (1-100) indicating how certain or well-supported the rule is
 
-Each rule:
-- id: unique integer
-- if: one or more concepts (use AND)
-- then: dependent concept
-- confidence: value from 1–100
+**Types of Rules to Extract:**
 
-Format:
+1. **Prerequisite Rules**: Concept A must exist/occur before concept B
+   - Example: IF "Basic Algebra" THEN "Calculus"
+
+2. **Causal Rules**: Concept A causes or leads to concept B
+   - Example: IF "Smoking" THEN "Lung Disease Risk"
+
+3. **Compositional Rules**: Concept A is part of or required for concept B
+   - Example: IF "CPU" AND "Memory" AND "Storage" THEN "Computer"
+
+4. **Conditional Rules**: If condition A holds, then B follows
+   - Example: IF "Temperature > 100°C" THEN "Water Boils"
+
+5. **Procedural Rules**: Step A must occur before step B in a process
+   - Example: IF "Data Collection" THEN "Data Analysis"
+
+6. **Taxonomic Rules**: Concept A implies or necessitates concept B
+   - Example: IF "Mammal" THEN "Vertebrate"
+
+**Confidence Scoring Guidelines:**
+
+- **90-100**: Rule is explicitly stated with clear, direct evidence
+- **75-89**: Rule is strongly implied with substantial supporting evidence
+- **60-74**: Rule is reasonably inferred from contextual clues
+- **45-59**: Rule is weakly implied; some ambiguity exists
+- **30-44**: Rule is speculative but plausible given the domain
+- **1-29**: Rule is highly uncertain; minimal supporting evidence
+
+**Instructions:**
+1. Read the entire corpus to understand the domain and identify patterns
+2. Look for explicit conditional statements (if-then, when-then, requires, depends on, leads to, etc.)
+3. Identify implicit dependencies and prerequisites
+4. For each rule:
+   - Assign a unique integer ID (starting from 1)
+   - Specify the condition(s) in the "if" field - use "AND" to combine multiple conditions
+   - Specify the result in the "then" field (single concept)
+   - Assign a confidence score based on the strength of evidence
+5. Prioritize rules that are:
+   - Explicitly stated or strongly implied
+   - Significant to understanding the domain
+   - Actionable or practically useful
+6. Ensure concept names match exactly as they appear in the corpus
+7. Avoid trivial or obvious rules unless they're explicitly stated
+8. Don't create rules based on speculation without textual support
+
+**Output Format:**
+Return a valid JSON array. Each object must have exactly four fields: id, if, then, and confidence.
+
+**Few-Shot Examples:**
+
+**Example 1:**
+Corpus: "Before learning calculus, students must have a solid understanding of algebra and trigonometry. Calculus builds on these foundational concepts. Integration is a core component of calculus, but it cannot be properly understood without first mastering derivatives. Advanced calculus requires knowledge of multivariable functions."
+
+Output:
 [
   {
+    "id": 1,
+    "if": "Algebra AND Trigonometry",
+    "then": "Calculus",
+    "confidence": 95
+  },
+  {
     "id": 2,
-    "if": "DNA Replication",
-    "then": "Mitosis",
+    "if": "Derivatives",
+    "then": "Integration",
+    "confidence": 90
+  },
+  {
+    "id": 3,
+    "if": "Calculus",
+    "then": "Advanced Calculus",
+    "confidence": 85
+  },
+  {
+    "id": 4,
+    "if": "Multivariable Functions",
+    "then": "Advanced Calculus",
     "confidence": 92
   }
 ]
 
-Corpus:
+**Example 2:**
+Corpus: "Hypertension, or high blood pressure, is a major risk factor for cardiovascular disease. When combined with high cholesterol, the risk of heart attack increases significantly. Patients with diabetes are more likely to develop hypertension. Regular exercise can reduce blood pressure and improve cardiovascular health."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Hypertension",
+    "then": "Cardiovascular Disease Risk",
+    "confidence": 88
+  },
+  {
+    "id": 2,
+    "if": "Hypertension AND High Cholesterol",
+    "then": "Heart Attack Risk",
+    "confidence": 92
+  },
+  {
+    "id": 3,
+    "if": "Diabetes",
+    "then": "Hypertension",
+    "confidence": 80
+  },
+  {
+    "id": 4,
+    "if": "Regular Exercise",
+    "then": "Reduced Blood Pressure",
+    "confidence": 85
+  },
+  {
+    "id": 5,
+    "if": "Regular Exercise",
+    "then": "Improved Cardiovascular Health",
+    "confidence": 85
+  }
+]
+
+**Example 3:**
+Corpus: "In software development, requirements gathering must be completed before design begins. The design phase informs implementation decisions. Code reviews should be conducted after implementation but before deployment. Automated testing is essential for continuous integration. When tests fail, code must be revised before merging."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Requirements Gathering",
+    "then": "Design",
+    "confidence": 95
+  },
+  {
+    "id": 2,
+    "if": "Design",
+    "then": "Implementation",
+    "confidence": 90
+  },
+  {
+    "id": 3,
+    "if": "Implementation",
+    "then": "Code Review",
+    "confidence": 88
+  },
+  {
+    "id": 4,
+    "if": "Code Review",
+    "then": "Deployment",
+    "confidence": 85
+  },
+  {
+    "id": 5,
+    "if": "Automated Testing",
+    "then": "Continuous Integration",
+    "confidence": 92
+  },
+  {
+    "id": 6,
+    "if": "Failed Tests",
+    "then": "Code Revision",
+    "confidence": 90
+  }
+]
+
+**Example 4:**
+Corpus: "Photosynthesis requires sunlight, water, and carbon dioxide to produce glucose and oxygen. Plants with chlorophyll can perform photosynthesis. In the absence of light, plants cannot photosynthesize and must rely on stored energy. Temperature affects the rate of photosynthesis; optimal temperatures increase efficiency."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Sunlight AND Water AND Carbon Dioxide",
+    "then": "Photosynthesis",
+    "confidence": 95
+  },
+  {
+    "id": 2,
+    "if": "Chlorophyll",
+    "then": "Photosynthesis",
+    "confidence": 90
+  },
+  {
+    "id": 3,
+    "if": "Photosynthesis",
+    "then": "Glucose Production",
+    "confidence": 92
+  },
+  {
+    "id": 4,
+    "if": "Photosynthesis",
+    "then": "Oxygen Production",
+    "confidence": 92
+  },
+  {
+    "id": 5,
+    "if": "Absence of Light",
+    "then": "No Photosynthesis",
+    "confidence": 88
+  },
+  {
+    "id": 6,
+    "if": "Optimal Temperature",
+    "then": "Increased Photosynthesis Rate",
+    "confidence": 80
+  }
+]
+
+**Example 5:**
+Corpus: "A valid contract requires offer, acceptance, and consideration. Minors cannot legally enter into binding contracts. Breach of contract may result in damages or specific performance as remedies. Contracts made under duress are voidable. Written contracts are generally preferred over oral agreements for enforceability."
+
+Output:
+[
+  {
+    "id": 1,
+    "if": "Offer AND Acceptance AND Consideration",
+    "then": "Valid Contract",
+    "confidence": 98
+  },
+  {
+    "id": 2,
+    "if": "Minor Status",
+    "then": "Invalid Contract",
+    "confidence": 95
+  },
+  {
+    "id": 3,
+    "if": "Breach of Contract",
+    "then": "Damages",
+    "confidence": 85
+  },
+  {
+    "id": 4,
+    "if": "Breach of Contract",
+    "then": "Specific Performance",
+    "confidence": 75
+  },
+  {
+    "id": 5,
+    "if": "Duress",
+    "then": "Voidable Contract",
+    "confidence": 92
+  },
+  {
+    "id": 6,
+    "if": "Written Contract",
+    "then": "Enhanced Enforceability",
+    "confidence": 82
+  }
+]
+
+**Edge Cases:**
+
+- **Bidirectional relationships**: Create separate rules for each direction if both are stated (A→B and B→A)
+- **Multiple antecedents**: Use "AND" to combine conditions (e.g., "A AND B AND C")
+- **Multiple consequences**: Create separate rules for each consequence
+- **Negative rules**: You may include rules with negative conditions or outcomes (e.g., "IF X THEN NOT Y")
+- **Probabilistic rules**: Use confidence scores to reflect uncertainty or probability
+- **Missing information**: If confidence is unclear, use moderate scores (60-75)
+- **Circular dependencies**: Avoid creating circular rules (A→B→C→A) unless explicitly stated in the text
+
+**Quality Checklist:**
+Before submitting your output, verify:
+- ✓ Each rule has a unique integer ID
+- ✓ All concept names in "if" and "then" fields match terminology from the corpus
+- ✓ Multiple conditions are combined with "AND" in the "if" field
+- ✓ Confidence scores are between 1-100 and reflect the strength of evidence
+- ✓ Rules represent meaningful patterns, not trivial statements
+- ✓ All rules are grounded in the text, not speculation
+- ✓ JSON is valid and properly formatted
+
+---
+
+**Corpus:**
 {corpus}
+
+**Respond with valid JSON only. Do not include any explanatory text before or after the JSON array.**

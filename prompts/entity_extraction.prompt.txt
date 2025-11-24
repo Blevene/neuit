@@ -1,19 +1,207 @@
-**Objective:** Identify concepts, entities, aliases, and their semantic categories from input text.
+**Objective:** Extract key concepts, entities, and terminology from input text with high precision and semantic accuracy.
 
-You are a domain analyst. Extract all key concepts and named entities from the following corpus.
+**Your Role:**
+You are an expert knowledge engineer and domain analyst specializing in entity extraction. Your task is to identify meaningful concepts, entities, and terms from text while filtering out noise, common words, and trivial mentions.
 
-For each concept, return:
-- name: the concept or entity name
-- aliases: known synonyms or alternate terms
-- category: the semantic type (e.g., Process, Substance, Device, Function)
+**What to Extract:**
+Extract entities that represent:
+- Core concepts and terminology specific to the domain
+- Named entities (people, places, organizations, products, etc.)
+- Technical terms and specialized vocabulary
+- Processes, methods, and procedures
+- Abstract concepts that carry semantic weight
+- Tools, instruments, devices, and technologies
+- Measurable attributes and properties
 
-Return JSON:
+**What NOT to Extract:**
+- Common words or phrases without domain-specific meaning
+- Generic verbs (e.g., "is", "has", "does") unless they represent a specific process
+- Stopwords and articles
+- Overly broad terms that lack specificity
+- Fragments or incomplete concepts
+
+**Categories to Use:**
+Choose the most appropriate semantic category for each entity:
+- **Concept**: Abstract ideas, theories, principles, frameworks
+- **Entity**: Named things, specific instances, proper nouns
+- **Process**: Actions, procedures, methods, workflows
+- **Attribute**: Properties, qualities, characteristics, features
+- **Object**: Physical or concrete items, tools, devices, substances
+- **Role**: Job titles, positions, functions performed by agents
+- **Event**: Occurrences, happenings, situations
+- **Measurement**: Quantifiable values, metrics, units
+- **Location**: Places, regions, spatial references
+- **Temporal**: Time-related concepts, periods, durations
+
+**Instructions:**
+1. Read the entire corpus carefully to understand the domain and context
+2. Extract up to {top_n} of the MOST SIGNIFICANT entities (prioritize by importance and frequency)
+3. For each entity:
+   - Use the most precise and commonly accepted term as the primary name
+   - Include meaningful aliases, synonyms, abbreviations, and alternate forms
+   - Ensure aliases are genuinely interchangeable (not related but distinct concepts)
+   - Select the single most appropriate category from the list above
+4. Maintain consistency: if you extract "Machine Learning", don't also extract "ML" as a separate entity
+5. Preserve proper capitalization and formatting (e.g., "DNA" not "dna", "JavaScript" not "javascript")
+6. Focus on nouns and noun phrases; avoid extracting full sentences
+7. When in doubt, prefer specificity over generality
+
+**Output Format:**
+Return a valid JSON array. Each object must have exactly three fields: name, aliases, and category.
+
+**Few-Shot Examples:**
+
+**Example 1:**
+Input Text: "Photosynthesis is the process by which plants convert sunlight into chemical energy. Chloroplasts, the organelles responsible for photosynthesis, contain chlorophyll which absorbs light energy. The light-dependent reactions occur in the thylakoid membranes, while the Calvin cycle takes place in the stroma."
+
+Output:
 [
   {
-    "name": "Mitochondria",
-    "aliases": ["Powerhouse of the cell"],
-    "category": "Structure"
+    "name": "Photosynthesis",
+    "aliases": ["Light-dependent energy conversion"],
+    "category": "Process"
+  },
+  {
+    "name": "Chloroplast",
+    "aliases": ["Chloroplasts"],
+    "category": "Object"
+  },
+  {
+    "name": "Chlorophyll",
+    "aliases": ["Photosynthetic pigment"],
+    "category": "Object"
+  },
+  {
+    "name": "Thylakoid membrane",
+    "aliases": ["Thylakoid", "Thylakoid membranes"],
+    "category": "Object"
+  },
+  {
+    "name": "Calvin cycle",
+    "aliases": ["Light-independent reactions", "C3 cycle"],
+    "category": "Process"
+  },
+  {
+    "name": "Stroma",
+    "aliases": ["Chloroplast stroma"],
+    "category": "Location"
+  },
+  {
+    "name": "Light energy",
+    "aliases": ["Sunlight", "Solar energy"],
+    "category": "Attribute"
+  },
+  {
+    "name": "Chemical energy",
+    "aliases": ["Stored energy"],
+    "category": "Attribute"
   }
 ]
-Corpus:
+
+**Example 2:**
+Input Text: "In object-oriented programming, encapsulation refers to the bundling of data with methods that operate on that data. Python implements encapsulation through classes and access modifiers. Private attributes are denoted with a double underscore prefix (__attribute)."
+
+Output:
+[
+  {
+    "name": "Object-oriented programming",
+    "aliases": ["OOP", "Object-oriented design"],
+    "category": "Concept"
+  },
+  {
+    "name": "Encapsulation",
+    "aliases": ["Data hiding", "Information hiding"],
+    "category": "Concept"
+  },
+  {
+    "name": "Python",
+    "aliases": [],
+    "category": "Entity"
+  },
+  {
+    "name": "Class",
+    "aliases": ["Classes", "Object class"],
+    "category": "Concept"
+  },
+  {
+    "name": "Access modifier",
+    "aliases": ["Access modifiers", "Access specifier"],
+    "category": "Concept"
+  },
+  {
+    "name": "Private attribute",
+    "aliases": ["Private attributes", "Private member variable"],
+    "category": "Concept"
+  },
+  {
+    "name": "Method",
+    "aliases": ["Methods", "Member function"],
+    "category": "Concept"
+  }
+]
+
+**Example 3:**
+Input Text: "The Treaty of Versailles, signed on June 28, 1919, formally ended World War I. The agreement imposed heavy reparations on Germany and redrew European borders. U.S. President Woodrow Wilson advocated for the League of Nations, though the Senate rejected American membership."
+
+Output:
+[
+  {
+    "name": "Treaty of Versailles",
+    "aliases": ["Versailles Treaty", "Paris Peace Treaty"],
+    "category": "Event"
+  },
+  {
+    "name": "World War I",
+    "aliases": ["WWI", "First World War", "Great War"],
+    "category": "Event"
+  },
+  {
+    "name": "War reparations",
+    "aliases": ["Reparations", "Reparation payments"],
+    "category": "Concept"
+  },
+  {
+    "name": "Germany",
+    "aliases": ["German Reich"],
+    "category": "Entity"
+  },
+  {
+    "name": "Woodrow Wilson",
+    "aliases": ["President Wilson"],
+    "category": "Entity"
+  },
+  {
+    "name": "League of Nations",
+    "aliases": ["LON"],
+    "category": "Entity"
+  },
+  {
+    "name": "United States Senate",
+    "aliases": ["U.S. Senate", "Senate"],
+    "category": "Entity"
+  }
+]
+
+**Edge Cases:**
+
+- **Ambiguous terms**: Choose the meaning most relevant to the context
+- **Compound concepts**: Extract as a single entity (e.g., "Machine Learning" not "Machine" and "Learning")
+- **Overlapping concepts**: If two entities are highly related but distinct, extract both (e.g., "Mitosis" and "Cell Division" if both are explicitly mentioned and used differently)
+- **Implicit concepts**: Only extract explicitly mentioned concepts, not implied ones
+- **Empty/short corpus**: Extract whatever meaningful entities exist, even if fewer than {top_n}
+
+**Quality Checklist:**
+Before submitting your output, verify:
+- ✓ All entities are genuinely significant to understanding the corpus
+- ✓ Categories are correctly assigned
+- ✓ Aliases are true synonyms, not just related terms
+- ✓ No duplicate entities (including aliases listed separately)
+- ✓ JSON is valid and properly formatted
+- ✓ Names use proper capitalization and formatting
+
+---
+
+**Corpus to Analyze:**
 {corpus}
+
+**Respond with valid JSON only. Do not include any explanatory text before or after the JSON array.**

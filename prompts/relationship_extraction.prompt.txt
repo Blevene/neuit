@@ -1,22 +1,279 @@
-**Objective:** Identify factual or semantic triples between known entities in the corpus.
+**Objective:** Extract precise, factual semantic relationships (triples) between entities in the corpus, grounded in explicit textual evidence.
 
+**Your Role:**
+You are an expert knowledge graph engineer specializing in relationship extraction. Your task is to identify meaningful connections between concepts and entities, forming semantic triples that accurately represent the knowledge in the source text.
 
-You are a semantic extraction engine. Use the provided list of concepts and corpus to extract knowledge triples.
+**Triple Structure:**
+Each relationship must follow the subject-predicate-object pattern:
+- **Subject**: The source entity (must exist in the provided concepts list)
+- **Predicate**: The relationship type or action connecting subject to object
+- **Object**: The target entity (must exist in the provided concepts list)
+- **Justification**: The exact sentence or phrase from the corpus that supports this relationship
 
-Return each as:
-- subject
-- predicate
-- object
-- justification (a sentence from the source text)
+**Predicate Guidelines:**
 
-Format:
+**Use clear, specific predicates that convey the relationship precisely. Prefer:**
+- Semantic predicates: `causes`, `enables`, `requires`, `produces`, `contains`, `implements`, `treats`, `prevents`
+- Structural predicates: `part_of`, `subclass_of`, `instance_of`, `composed_of`
+- Functional predicates: `performs`, `regulates`, `influences`, `affects`, `transforms`
+- Associative predicates: `associated_with`, `related_to`, `connected_to`, `interacts_with`
+- Temporal predicates: `precedes`, `follows`, `during`, `before`, `after`
+- Descriptive predicates: `has_property`, `characterized_by`, `measured_by`
+
+**Avoid:**
+- Generic predicates like `is`, `has`, `does` (use more specific alternatives)
+- Overly complex predicate phrases (keep predicates concise)
+- Predicates that don't represent a clear semantic relationship
+
+**What to Extract:**
+Extract relationships that:
+- Are explicitly stated or strongly implied in the corpus
+- Connect entities from the provided concepts list
+- Represent meaningful semantic connections
+- Have clear textual justification
+- Add value to understanding the domain
+
+**What NOT to Extract:**
+- Relationships between entities not in the concepts list
+- Speculative or inferred relationships without textual support
+- Trivial relationships that don't add semantic value
+- Relationships based on metaphor or figurative language
+- Duplicate relationships (same subject-predicate-object with different wording)
+
+**Instructions:**
+1. Read the corpus and concepts list carefully
+2. For each pair of concepts, determine if a meaningful relationship exists
+3. Extract only relationships that are explicitly mentioned or directly supported by the text
+4. Choose the most specific and accurate predicate for each relationship
+5. Include the exact sentence or phrase from the corpus as justification
+6. Ensure each triple is unique (no duplicates)
+7. Prioritize the most important and central relationships
+8. Validate that both subject and object are in the concepts list
+9. Use consistent predicate naming (lowercase with underscores: `part_of`, `causes`, `enables`)
+
+**Output Format:**
+Return a valid JSON array. Each object must have exactly four fields: subject, predicate, object, and justification.
+
+**Few-Shot Examples:**
+
+**Example 1:**
+Concepts: ["Photosynthesis", "Chloroplast", "Chlorophyll", "Light energy", "Chemical energy", "Glucose", "Carbon dioxide", "Water"]
+
+Corpus: "Photosynthesis is the process by which plants convert light energy into chemical energy in the form of glucose. This process occurs in chloroplasts, which contain chlorophyll. Chlorophyll absorbs light energy, which drives the conversion of carbon dioxide and water into glucose."
+
+Output:
 [
   {
-    "subject": "Neuron",
+    "subject": "Photosynthesis",
+    "predicate": "converts",
+    "object": "Light energy",
+    "justification": "Photosynthesis is the process by which plants convert light energy into chemical energy."
+  },
+  {
+    "subject": "Photosynthesis",
+    "predicate": "produces",
+    "object": "Glucose",
+    "justification": "Plants convert light energy into chemical energy in the form of glucose."
+  },
+  {
+    "subject": "Photosynthesis",
+    "predicate": "occurs_in",
+    "object": "Chloroplast",
+    "justification": "This process occurs in chloroplasts."
+  },
+  {
+    "subject": "Chloroplast",
+    "predicate": "contains",
+    "object": "Chlorophyll",
+    "justification": "Chloroplasts contain chlorophyll."
+  },
+  {
+    "subject": "Chlorophyll",
+    "predicate": "absorbs",
+    "object": "Light energy",
+    "justification": "Chlorophyll absorbs light energy."
+  },
+  {
+    "subject": "Photosynthesis",
     "predicate": "uses",
-    "object": "Neurotransmitter",
-    "justification": "Neurons use neurotransmitters to communicate across synapses."
+    "object": "Carbon dioxide",
+    "justification": "Drives the conversion of carbon dioxide and water into glucose."
+  },
+  {
+    "subject": "Photosynthesis",
+    "predicate": "uses",
+    "object": "Water",
+    "justification": "Drives the conversion of carbon dioxide and water into glucose."
   }
 ]
-Concepts: {concepts}
-Corpus: {corpus}
+
+**Example 2:**
+Concepts: ["Machine Learning", "Neural Network", "Training Data", "Model", "Prediction", "Accuracy", "Overfitting", "Validation Set"]
+
+Corpus: "Machine learning models are trained on training data to make predictions. Neural networks are a type of machine learning model that can achieve high accuracy when properly trained. However, overfitting occurs when the model memorizes the training data rather than learning generalizable patterns. A validation set is used to detect overfitting during training."
+
+Output:
+[
+  {
+    "subject": "Model",
+    "predicate": "trained_on",
+    "object": "Training Data",
+    "justification": "Machine learning models are trained on training data."
+  },
+  {
+    "subject": "Model",
+    "predicate": "makes",
+    "object": "Prediction",
+    "justification": "Models are trained on training data to make predictions."
+  },
+  {
+    "subject": "Neural Network",
+    "predicate": "subclass_of",
+    "object": "Machine Learning",
+    "justification": "Neural networks are a type of machine learning model."
+  },
+  {
+    "subject": "Neural Network",
+    "predicate": "achieves",
+    "object": "Accuracy",
+    "justification": "Neural networks can achieve high accuracy when properly trained."
+  },
+  {
+    "subject": "Overfitting",
+    "predicate": "involves",
+    "object": "Training Data",
+    "justification": "Overfitting occurs when the model memorizes the training data."
+  },
+  {
+    "subject": "Validation Set",
+    "predicate": "detects",
+    "object": "Overfitting",
+    "justification": "A validation set is used to detect overfitting during training."
+  }
+]
+
+**Example 3:**
+Concepts: ["Antibiotic", "Bacteria", "Infection", "Resistance", "Penicillin", "Cell Wall", "Treatment", "Mutation"]
+
+Corpus: "Antibiotics are medications used to treat bacterial infections. Penicillin, one of the first antibiotics discovered, works by disrupting bacterial cell wall synthesis. However, bacteria can develop resistance to antibiotics through genetic mutations, making infections harder to treat."
+
+Output:
+[
+  {
+    "subject": "Antibiotic",
+    "predicate": "treats",
+    "object": "Infection",
+    "justification": "Antibiotics are medications used to treat bacterial infections."
+  },
+  {
+    "subject": "Penicillin",
+    "predicate": "subclass_of",
+    "object": "Antibiotic",
+    "justification": "Penicillin, one of the first antibiotics discovered."
+  },
+  {
+    "subject": "Penicillin",
+    "predicate": "disrupts",
+    "object": "Cell Wall",
+    "justification": "Penicillin works by disrupting bacterial cell wall synthesis."
+  },
+  {
+    "subject": "Bacteria",
+    "predicate": "develops",
+    "object": "Resistance",
+    "justification": "Bacteria can develop resistance to antibiotics."
+  },
+  {
+    "subject": "Mutation",
+    "predicate": "causes",
+    "object": "Resistance",
+    "justification": "Bacteria can develop resistance through genetic mutations."
+  },
+  {
+    "subject": "Resistance",
+    "predicate": "affects",
+    "object": "Treatment",
+    "justification": "Making infections harder to treat."
+  }
+]
+
+**Example 4:**
+Concepts: ["Plaintiff", "Defendant", "Court", "Evidence", "Testimony", "Verdict", "Jury", "Judge"]
+
+Corpus: "In a civil lawsuit, the plaintiff presents evidence to the court to support their case against the defendant. The jury evaluates the testimony and evidence, while the judge oversees the proceedings. Ultimately, the jury delivers a verdict based on the evidence presented."
+
+Output:
+[
+  {
+    "subject": "Plaintiff",
+    "predicate": "presents",
+    "object": "Evidence",
+    "justification": "The plaintiff presents evidence to the court."
+  },
+  {
+    "subject": "Plaintiff",
+    "predicate": "opposes",
+    "object": "Defendant",
+    "justification": "The plaintiff presents evidence to support their case against the defendant."
+  },
+  {
+    "subject": "Jury",
+    "predicate": "evaluates",
+    "object": "Evidence",
+    "justification": "The jury evaluates the testimony and evidence."
+  },
+  {
+    "subject": "Jury",
+    "predicate": "evaluates",
+    "object": "Testimony",
+    "justification": "The jury evaluates the testimony and evidence."
+  },
+  {
+    "subject": "Judge",
+    "predicate": "oversees",
+    "object": "Court",
+    "justification": "The judge oversees the proceedings."
+  },
+  {
+    "subject": "Jury",
+    "predicate": "delivers",
+    "object": "Verdict",
+    "justification": "The jury delivers a verdict."
+  },
+  {
+    "subject": "Verdict",
+    "predicate": "based_on",
+    "object": "Evidence",
+    "justification": "The jury delivers a verdict based on the evidence presented."
+  }
+]
+
+**Edge Cases:**
+
+- **Implicit relationships**: Only extract if the relationship is clearly implied by the text
+- **Bidirectional relationships**: Extract the relationship in the direction that matches the text (e.g., "A causes B" not "B caused_by A" unless both are stated)
+- **Multiple relationships**: If two entities have multiple distinct relationships, extract each as a separate triple
+- **Chain relationships**: Extract direct relationships only; don't infer transitive relationships (e.g., if A→B and B→C are stated, don't infer A→C unless explicitly stated)
+- **Negated relationships**: You may extract negative relationships if significant (e.g., "prevents", "inhibits", "does_not_cause")
+- **Missing concepts**: If a relationship involves an entity not in the concepts list, skip it
+- **Ambiguous justification**: Use the most specific and relevant sentence as justification
+
+**Quality Checklist:**
+Before submitting your output, verify:
+- ✓ Every subject and object exists in the provided concepts list
+- ✓ Each predicate is specific and semantically meaningful
+- ✓ Justifications are exact quotes or paraphrases from the corpus
+- ✓ No duplicate triples (same subject-predicate-object combinations)
+- ✓ All relationships are explicitly supported by the text
+- ✓ JSON is valid and properly formatted
+- ✓ Predicates use consistent naming convention (lowercase with underscores)
+
+---
+
+**Concepts:**
+{concepts}
+
+**Corpus:**
+{corpus}
+
+**Respond with valid JSON only. Do not include any explanatory text before or after the JSON array.**
